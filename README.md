@@ -30,15 +30,15 @@ Po ukončení týdne se do terminálu a do souboru vypíše týdenní výsledkov
 
 - metoda pro náhodný výběr aut ze stavu autobazaru, která bude simulovat zákazníky, kteří si vybrali jejich vysněné auto
 - metoda pro vybrání požadovaného prodejce, který ještě může prodávat a disponuje svými zkušenostmi z prodejů (čím vyšší úroveň, tím míň zákazník z ceny auta slevý a tím více autobazar z daného auta vydělá), úrovně jsou rozřazené následovně:
-+ 1. až 3. úroveň -> 15 - 11% z částky auta
-+ 4. až 7. úroveň -> 10 - 6% z částky auta
-+ 8. až 10. úroveň -> 5 - 0% z čátky auta
+  - 1. až 3. úroveň -> 15 - 11% z částky auta
+  - 4. až 7. úroveň -> 10 - 6% z částky auta
+  - 8. až 10. úroveň -> 5 - 0% z čátky auta
 - metoda pro vykonání prodeje (náhodné vybrání procenta z intervalu, které se ztrhne z ceny auta v závislosti na úrovni prodejce), částka, za kterou se auto prodá se zapíše do účtu autobazaru a dannému prodejci se zapíše do jeho "pokladničky" provize z prodeje, každý prodejce má **provizi 20%**, po prodeji se prodejci odečte z počtu prodaných aut 1, pokud dojde na prodejce, který už nebude mít možnost prodávat auta, prodávat nebude a nebude tak dispozici
 - vypsání nákupu a prodeje aut, provizí prodejců a celkový výdělek autobazaru za týden (následné uložení do *.pdf*) např.
-+   + prodej
-+   - koupě
-+   <u>- provize</u>
-+     **TOTAL**
+  +   + prodej
+  +   - koupě
+  +   - provize
+  +   **TOTAL**
 
 
 Aplikace by měla být co nejvíce odladělá hlavně při zadávání hodnot a vybírání prodejců.
