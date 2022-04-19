@@ -35,9 +35,9 @@ Po ukončení týdne se do terminálu a do souboru vypíše týdenní výsledkov
   - 8. až 10. úroveň -> 5 - 0% z čátky auta
 - metoda pro vykonání prodeje (náhodné vybrání procenta z intervalu, které se ztrhne z ceny auta v závislosti na úrovni prodejce), částka, za kterou se auto prodá se zapíše do účtu autobazaru a dannému prodejci se zapíše do jeho "pokladničky" provize z prodeje, každý prodejce má **provizi 20%**, po prodeji se prodejci odečte z počtu prodaných aut 1, pokud dojde na prodejce, který už nebude mít možnost prodávat auta, prodávat nebude a nebude tak dispozici
 - vypsání nákupu a prodeje aut, provizí prodejců a celkový výdělek autobazaru za týden (následné uložení do *.pdf*) např.
-  +   + prodej
-  +   - koupě
-  +   - provize
+  +   \+ prodej
+  +   \- koupě
+  +   \- provize
   +   **TOTAL**
 
 
