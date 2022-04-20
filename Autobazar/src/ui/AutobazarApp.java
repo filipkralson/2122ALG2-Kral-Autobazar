@@ -1,4 +1,6 @@
-public class AutobazarApp {
+package ui;
+
+public class AutobazarApp{
     public static void main(String[] args) {
         
     }
