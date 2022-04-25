@@ -1,8 +1,13 @@
-### ALG2-SemestralProject
+### 2122ALG2-Kral-Autobazar
 
 # Autobazar
 
-Majitel prestižního autobazaru v Liberci tě požádal, aby si mu pomohl se simulací prodejů v jeho autobazaru. Musíš autobazar vytvořit, pojmenovat, zadat mu počet aut, které si dáš do stavu autobazaru (maximálně 15) a počet prodejců (maximálně 5) , kteří budou auta prodávat. Každému prodejci nastavíš jméno, příjmení, věk a úroveň zkušenosti, kterou bude disponovat při prodeji. Na začátku si ze seznamu aut vybereš, která auta si chceš koupit a přemístit na bazar (nejmenší počet aut je 1). Musíš vyplnit všechny pozice pro prodejce a auta, které sis při vytvoření navolil.
+Majitel prestižního autobazaru v Liberci tě požádal, aby si mu pomohl se simulací prodejů v jeho autobazaru. Musíš autobazar vytvořit, pojmenovat, zadat mu počet aut, které si dáš do stavu autobazaru (maximálně 15) a počet prodejců (maximálně 5) , kteří budou auta prodávat. Každému prodejci nastavíš jméno, příjmení, věk a úroveň zkušenosti, kterou bude disponovat při prodeji. Na začátku si ze seznamu aut vybereš, která auta si chceš koupit a přemístit na bazar (nejmenší počet aut je 1). Musíš vyplnit všechny pozice pro prodejce a auta, které sis při vytvoření navolil!
+Prodej bude vypadat následnovně:
+- přijde zákazník a vybere si auto
+- vybereš prodejce, který auto prodá
+- prodejce a zákazník se domluví na ceně a auto se prodá
+
 Pracovní týden má 5 dní, pracovní doba je od 9:00 do 17:00, přičemž denně lze **prodat právě 3 auta**, tak, aby se den ukončil. Když v jakýkoliv den dojdou auta ze stavu, týden tímto končí.
 Aplikace bude sekvenčně zpracovávat tyto příkazy, které uživatel bude zadávat:
   1. ukázat seznam aut
@@ -17,7 +22,8 @@ Po ukončení týdne se do terminálu a do souboru vypíše týdenní výsledkov
 - nastavení jména společnosti, počet aut, počet zaměstatnců
 - uložení zaměstnanců do pole objektů
 - vybrání si aut z .csv souboru a uložení jej do pole objektů
-- vypsání seřazeného seznamu prodejců podle zkušeností a seznamu aut podle značky (sestupně)
+- vypsání seřazeného seznamu prodejců podle zkušeností sestupně
+- vypsání seřazeného seznamu všech aut v autobazaru (i těch prodaných s časem prodeje, náhodný čas od 9:00 do 17:00) podle značky sestupně
 - získání počtu aut, počtu zaměstnanců a jména společnosti
 - vytvoření účtu autobazaru, do kterého se budou zapisovat částky prodaných aut
 
