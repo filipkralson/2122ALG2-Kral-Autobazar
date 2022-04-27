@@ -49,5 +49,6 @@ Po ukončení týdne se do terminálu a do souboru vypíše týdenní výsledkov
   +   \- provize
   +   **TOTAL**
 
+## Budeš mít za úkol vytvořit třídu **AutobazarApp.java** ve které vytvoříš UI pro ovládání aplikace.
 
 Aplikace by měla být co nejvíce odladělá hlavně při zadávání hodnot a vybírání prodejců.
