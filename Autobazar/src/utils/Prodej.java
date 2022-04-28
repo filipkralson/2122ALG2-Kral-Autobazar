@@ -1,5 +1,5 @@
 package utils;
 
-public class utils {
+public class Prodej {
     
 }
