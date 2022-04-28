@@ -2,7 +2,7 @@
 
 # Autobazar
 
-Majitel prestižního autobazaru v Liberci tě požádal, aby si mu pomohl se simulací prodejů v jeho autobazaru. Musíš autobazar vytvořit, pojmenovat, zadat mu počet aut, které si dáš do stavu autobazaru a počet prodejců, kteří budou auta prodávat. Každému prodejci nastavíš jméno, příjmení, věk a úroveň zkušenosti, kterou bude disponovat při prodeji. Na začátku si ze seznamu aut vybereš, která auta si chceš koupit a přemístit na bazar (nejmenší počet aut je 1). Musíš vyplnit všechny pozice pro prodejce a auta, které sis při vytvoření navolil!
+Majitel prestižního autobazaru v Liberci tě požádal, aby si mu pomohl se simulací prodejů v jeho autobazaru. Musíš autobazar vytvořit, pojmenovat, zadat mu počet aut, které si dáš do stavu autobazaru a počet prodejců, kteří budou auta prodávat. Každému prodejci nastavíš jméno, příjmení, věk a úroveň zkušenosti, kterou bude disponovat při prodeji. Na začátku si ze seznamu aut vybereš, která auta si chceš koupit a přemístit na bazar (nejmenší počet aut je 1). Musíš vyplnit všechny pozice pro auta, které sis při vytvoření navolil!
 Prodej bude vypadat následnovně:
 - přijde zákazník a vybere si auto
 - vybereš prodejce, který auto prodá
@@ -21,5 +21,6 @@ UI bude vypadat následovně:
       * Na základně zkušeností prodejce se auto prodalo za cenu x
       * Připisuji peníze na účet bazaru a účet prodejce, zapisuji čas prodeje a vytvářím záznam o prodeji do výsledkové listiny
 
+Budo možnost vybírat ze souboru .csv, ve kterém budou údaje o autech (značka, model, objem motoru, kW, kilometry, rok výroby, palivo, barva, cena)
 Po ukončení týdne se do terminálu a do souboru vypíše týdenní výsledková listina, na které budou údaje o koupi a prodeji všech aut a o provizích. Na konci bude celkový výsledek hospodaření celého podniku. Program se ukončí. 
 
