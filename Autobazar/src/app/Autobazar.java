@@ -6,17 +6,12 @@ public class Autobazar {
 
     private String name;
     private int carsCount;
-    private int sellersCount;
     static ArrayList<Prodejci> sellers;
+    static ArrayList<Auta> cars;
 
-    public Autobazar(String name, int carsCount, int sellersCount) {
+    public Autobazar(String name, int carsCount) {
         this.name = name;
         this.carsCount = carsCount;
-        this.sellersCount = sellersCount;
-    }
-
-    public int getSellers() {
-        return sellersCount;
     }
 
     public int getCars() {
@@ -35,9 +30,17 @@ public class Autobazar {
         sellers.add(seller);
     }
 
+    public int getSellersCount() {
+        return sellers.size();
+    }
+
+    public double bankAccount() {
+        return 0;
+    }
+
     @Override
     public String toString() {
-        return String.format("Autobazar %s má %d aut a %d prodejců.\n",this.name,this.carsCount,this.sellersCount);
+        return String.format("Autobazar %s má %d aut a %d prodejců.\n",this.name,this.carsCount,getSellersCount());
     }
 
     public String printSellers() {
@@ -52,9 +55,10 @@ public class Autobazar {
 
     public static void main(String[] args) {
         sellers = new ArrayList<>();
-        Autobazar abc = new Autobazar("ABC", 15, 5);
+        Autobazar abc = new Autobazar("ABC", 15);
         abc.addSeller(new Prodejci("Josef", "Krátký", 30, 10));
         abc.addSeller(new Prodejci("Arnošta", "z Pardubic", 55, 8));
+
         System.out.println(abc);
         System.out.println(abc.printSellers());
 
