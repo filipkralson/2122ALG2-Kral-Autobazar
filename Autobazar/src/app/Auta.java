@@ -2,6 +2,7 @@ package app;
 
 import java.util.ArrayList;
 
+
 public class Auta implements Comparable<Auta> {
 
     private String brand;
@@ -13,7 +14,7 @@ public class Auta implements Comparable<Auta> {
     private String fuel;
     private String color;
     private int price;
-    static ArrayList<Auta> cars;
+    private ArrayList<Auta> cars;
 
     public Auta(String brand, String model, double engineCapacity, int kilowatts, int kilometers, int yearOfManufacture,
             String fuel, String color, int price) {
@@ -73,7 +74,7 @@ public class Auta implements Comparable<Auta> {
 
     @Override
     public String toString() {
-        return String.format("%-15s %-15s %-7.1f %-7d %-15d %-15d %-15s %-20s %-15d", getBrand(), getModel(), getEngineCapacity(),
+        return String.format("%-15s %-15s %-7.1f %-7d %-15d %-15d %-15s %-20s %-15d\n", getBrand(), getModel(), getEngineCapacity(),
                 getKilowatts(), getKilometers(), getYearOfManufacture(), getFuel(), getColor(), getPrice());
     }
 
