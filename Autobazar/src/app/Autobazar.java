@@ -5,17 +5,13 @@ import java.util.ArrayList;
 public class Autobazar {
 
     private String name;
-    private int carsCount;
     static ArrayList<Prodejci> sellers;
     static ArrayList<Auta> cars;
 
-    public Autobazar(String name, int carsCount) {
+    public Autobazar(String name) {
         this.name = name;
-        this.carsCount = carsCount;
-    }
-
-    public int getCars() {
-        return carsCount;
+        cars = new ArrayList<>();
+        sellers = new ArrayList<>();
     }
 
     public String getName() {
@@ -34,13 +30,17 @@ public class Autobazar {
         return sellers.size();
     }
 
+    public int getCarsCount() {
+        return cars.size();
+    }
+
     public double bankAccount() {
         return 0;
     }
 
     @Override
     public String toString() {
-        return String.format("Autobazar %s má %d aut a %d prodejců.\n",this.name,this.carsCount,getSellersCount());
+        return String.format("Autobazar %s má %d aut a %d prodejců.\n",getName(),getCarsCount(),getSellersCount());
     }
 
     public String printSellers() {
@@ -54,8 +54,7 @@ public class Autobazar {
     }
 
     public static void main(String[] args) {
-        sellers = new ArrayList<>();
-        Autobazar abc = new Autobazar("ABC", 15);
+        Autobazar abc = new Autobazar("ABC");
         abc.addSeller(new Prodejci("Josef", "Krátký", 30, 10));
         abc.addSeller(new Prodejci("Arnošta", "z Pardubic", 55, 8));
 

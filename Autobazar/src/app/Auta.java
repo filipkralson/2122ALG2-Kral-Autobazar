@@ -1,16 +1,33 @@
 package app;
 
+import java.util.ArrayList;
+
 public class Auta implements Comparable<Auta> {
 
     private String brand;
     private String model;
-    private String color;
-    private String fuel;
     private double engineCapacity;
+    private int kilowatts;
     private int kilometers;
     private int yearOfManufacture;
+    private String fuel;
+    private String color;
     private int price;
-    private int kilowatts;
+    static ArrayList<Auta> cars;
+
+    public Auta(String brand, String model, double engineCapacity, int kilowatts, int kilometers, int yearOfManufacture,
+            String fuel, String color, int price) {
+        this.brand = brand;
+        this.model = model;
+        this.engineCapacity = engineCapacity;
+        this.kilowatts = kilowatts;
+        this.kilometers = kilometers;
+        this.yearOfManufacture = yearOfManufacture;
+        this.fuel = fuel;
+        this.color = color;
+        this.price = price;
+        cars = new ArrayList<>();
+    }
 
     @Override
     public int compareTo(Auta o) {
@@ -52,6 +69,12 @@ public class Auta implements Comparable<Auta> {
 
     public String getBrand() {
         return brand;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%-15s %-15s %-7.1f %-7d %-15d %-15d %-15s %-20s %-15d", getBrand(), getModel(), getEngineCapacity(),
+                getKilowatts(), getKilometers(), getYearOfManufacture(), getFuel(), getColor(), getPrice());
     }
 
 }
