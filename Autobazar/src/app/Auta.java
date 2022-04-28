@@ -1,8 +1,5 @@
 package app;
 
-import java.util.ArrayList;
-
-
 public class Auta implements Comparable<Auta> {
 
     private String brand;
@@ -14,7 +11,6 @@ public class Auta implements Comparable<Auta> {
     private String fuel;
     private String color;
     private int price;
-    private ArrayList<Auta> cars;
 
     public Auta(String brand, String model, double engineCapacity, int kilowatts, int kilometers, int yearOfManufacture,
             String fuel, String color, int price) {
@@ -27,7 +23,6 @@ public class Auta implements Comparable<Auta> {
         this.fuel = fuel;
         this.color = color;
         this.price = price;
-        cars = new ArrayList<>();
     }
 
     @Override
