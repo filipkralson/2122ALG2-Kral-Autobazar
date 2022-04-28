@@ -21,6 +21,7 @@ UI bude vypadat následovně:
       * Na základně zkušeností prodejce se auto prodalo za cenu x
       * Připisuji peníze na účet bazaru a účet prodejce, zapisuji čas prodeje a vytvářím záznam o prodeji do výsledkové listiny
 
-Budo možnost vybírat ze souboru .csv, ve kterém budou údaje o autech (značka, model, objem motoru, kW, kilometry, rok výroby, palivo, barva, cena)
+Bude možnost vybírat ze souboru .csv, ve kterém budou údaje o autech (značka, model, objem motoru, kW, kilometry, rok výroby, palivo, barva, cena).
+
 Po ukončení týdne se do terminálu a do souboru vypíše týdenní výsledková listina, na které budou údaje o koupi a prodeji všech aut a o provizích. Na konci bude celkový výsledek hospodaření celého podniku. Program se ukončí. 
 
