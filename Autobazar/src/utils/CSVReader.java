@@ -13,10 +13,14 @@ import java.util.Locale;
 public class CSVReader {
 
     static Locale czech = new Locale("cs", "CZ");
+    
 
     public static void main(String[] args) throws ExceptionFileNotFound, ExceptionInputOutput {
+
+        System.setProperty("file.encoding", "UTF-8");
         File file = new File("/Users/filip/Documents/ALG2-SemestralProject/Autobazar/src/cars.csv");
         String s = ("");
+        
         try {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 System.out.format("%-15s %-15s %-7s %-7s %-15s %-15s %-15s %-20s %-15s\n", "Značka", "Model", "Objem",
