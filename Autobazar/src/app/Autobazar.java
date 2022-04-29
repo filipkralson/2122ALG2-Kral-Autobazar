@@ -52,6 +52,14 @@ public class Autobazar {
         return 0;
     }
 
+    public String getSpecificCar(int specificCar) {
+        StringBuilder s = new StringBuilder();
+
+        s.append(cars.get(specificCar-1));
+
+        return s.toString();
+    }
+
     @Override
     public String toString() {
         return String.format("Autobazar %s má %d aut a %d prodejců.\n", getName(), getCarsCount(), getSellersCount());
@@ -68,6 +76,8 @@ public class Autobazar {
     }
 
     public void writeCars() throws ExceptionFileNotFound, ExceptionInputOutput {
+
+        //změnit cestu k souboru, nainicializovat proměnné jako private
 
         System.setProperty("file.encoding", "UTF-8");
         file = new File("/Users/filip/Documents/ALG2-SemestralProject/Autobazar/src/cars.csv");
@@ -100,7 +110,7 @@ public class Autobazar {
                 throw new ExceptionInputOutput("Chyba při vstupu!");
             }
         } catch (NumberFormatException e) {
-            e.printStackTrace();    //udělat vlastní exception
+            e.printStackTrace(); // udělat vlastní exception
         }
     }
 
@@ -118,13 +128,17 @@ public class Autobazar {
         Autobazar abc = new Autobazar("ABC");
         abc.addSeller(new Prodejci("Josef", "Krátký", 30, 10));
         abc.addSeller(new Prodejci("Arnošta", "z Pardubic", 55, 8));
-        //abc.addCar(new Auta("Škoda", "Fabia", 1.4, 55, 230000, 2003, "benzín", "stříbrná metalíza", 50000));
-
-        System.out.println(abc);
-        System.out.println(abc.printSellers());
-        System.out.format("%-15s %-15s %-7s %-7s %-15s %-15s %-15s %-20s %-15s\n\n", "Značka", "Model", "Objem",
-                "KW", "Kilometry", "Rok Výroby", "Palivo", "Barva", "Cena");
         abc.writeCars();
+        System.out.println(abc);
+        System.out.format("%-10s %-15s %-10s %-10s\n", "Jméno", "Příjmení", "Věk", "Zkušenosti");
+        System.out.println("------------------------------------------------");
+        System.out.println(abc.printSellers());
+        System.out.format("%-15s %-15s %-7s %-7s %-15s %-15s %-15s %-20s %-15s\n", "Značka", "Model", "Objem",
+                "KW", "Kilometry", "Rok Výroby", "Palivo", "Barva", "Cena");
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------");
+
+        System.out.println();
         System.out.println(abc.printCars());
+        System.out.println(abc.getSpecificCar(5));
     }
 }

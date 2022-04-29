@@ -65,7 +65,7 @@ public class Prodejci implements Comparable<Prodejci>{
 
     @Override
     public String toString() {
-        return String.format("Prodejce: %s %10s \t věk: %2d \t úroveň zkušeností: %2d\n",getName(),getSurname(),getAge(),getExp());
+        return String.format("%-10s %-15s %-10d %-10d\n",getName(),getSurname(),getAge(),getExp());
     }
 
     public double commission(Prodejci prodejce /*výsledek z prodeje*/) {
