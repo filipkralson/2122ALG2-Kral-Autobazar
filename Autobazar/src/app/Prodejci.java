@@ -68,7 +68,7 @@ public class Prodejci implements Comparable<Prodejci>{
         return String.format("%-10s %-15s %-10d %-10d\n",getName(),getSurname(),getAge(),getExp());
     }
 
-    public double commission(Prodejci prodejce /*výsledek z prodeje*/) {
+    public double commission() {
         //použití setMoney
         return 0;
     }

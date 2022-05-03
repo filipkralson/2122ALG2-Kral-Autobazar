@@ -6,17 +6,19 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import utils.ExceptionFileNotFound;
 import utils.ExceptionInputOutput;
 
 public class Autobazar {
 
+    private Random random;
     private String name, s;
     private String[] split;
     private File file;
-    static ArrayList<Prodejci> sellers;
-    static ArrayList<Auta> cars;
+    private ArrayList<Prodejci> sellers;
+    private ArrayList<Auta> cars;
 
     public Autobazar(String name) {
         this.name = name;
@@ -55,7 +57,7 @@ public class Autobazar {
     public String getSpecificCar(int specificCar) {
         StringBuilder s = new StringBuilder();
 
-        s.append(cars.get(specificCar-1));
+        s.append(cars.get(specificCar - 1));
 
         return s.toString();
     }
@@ -67,9 +69,10 @@ public class Autobazar {
 
     public String printSellers() {
         StringBuilder s = new StringBuilder();
+        int count = 0;
 
         for (Prodejci seller : sellers) {
-            s.append(seller);
+            s.append((count += 1) + ". ").append(seller);
         }
 
         return s.toString();
@@ -77,7 +80,7 @@ public class Autobazar {
 
     public void writeCars() throws ExceptionFileNotFound, ExceptionInputOutput {
 
-        //změnit cestu k souboru, nainicializovat proměnné jako private
+        // změnit cestu k souboru, nainicializovat proměnné jako private
 
         System.setProperty("file.encoding", "UTF-8");
         file = new File("/Users/filip/Documents/ALG2-SemestralProject/Autobazar/src/cars.csv");
@@ -124,21 +127,53 @@ public class Autobazar {
         return s.toString();
     }
 
+    public Auta getRandomCar() {
+
+        random = new Random();
+
+        return cars.get(random.nextInt(cars.size()));
+
+    }
+
+    public double pickRandomPercent(int max, int min) {
+        random = new Random();
+        return 100 - random.nextInt(max - min) + min;
+    }
+
+    public Prodejci getSpecificSeller(int specificSellerNumber) {
+        return sellers.get(specificSellerNumber - 1);
+    }
+
+    public void sellTime(Prodejci seller) {
+
+        //přidávání peněz na účet prodejce a majitele
+
+        double priceModif;
+        if (seller.getExp() <= 10 && seller.getExp() >= 8) {
+            priceModif = getRandomCar().getPrice() * (pickRandomPercent(5, 1) / 100);
+            seller.setMoney(priceModif * 0.1);
+        } else if (seller.getExp() <= 7 && seller.getExp() >= 4) {
+            priceModif = getRandomCar().getPrice() * (pickRandomPercent(10, 6) / 100);
+            seller.setMoney(priceModif * 0.1);
+        } else {
+            priceModif = getRandomCar().getPrice() * (pickRandomPercent(15, 11) / 100);
+            seller.setMoney(priceModif * 0.1);
+        }
+    }
+
     public static void main(String[] args) throws ExceptionFileNotFound, ExceptionInputOutput {
         Autobazar abc = new Autobazar("ABC");
         abc.addSeller(new Prodejci("Josef", "Krátký", 30, 10));
         abc.addSeller(new Prodejci("Arnošta", "z Pardubic", 55, 8));
         abc.writeCars();
         System.out.println(abc);
-        System.out.format("%-10s %-15s %-10s %-10s\n", "Jméno", "Příjmení", "Věk", "Zkušenosti");
-        System.out.println("------------------------------------------------");
+        ui.AutobazarApp.displaySellersHead();
         System.out.println(abc.printSellers());
-        System.out.format("%-15s %-15s %-7s %-7s %-15s %-15s %-15s %-20s %-15s\n", "Značka", "Model", "Objem",
-                "KW", "Kilometry", "Rok Výroby", "Palivo", "Barva", "Cena");
-        System.out.println("---------------------------------------------------------------------------------------------------------------------------");
-
-        System.out.println();
+        ui.AutobazarApp.displayCarsHead();
         System.out.println(abc.printCars());
-        System.out.println(abc.getSpecificCar(5));
+        abc.sellTime(abc.getSpecificSeller(1));
+        System.out.println(abc.getRandomCar());
+        System.out.println(abc.getSpecificSeller(1).getMoney());
+        System.out.println(abc.pickRandomPercent(5, 1) / 100);
     }
 }
