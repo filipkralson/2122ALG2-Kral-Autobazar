@@ -1,8 +1,6 @@
 package utils;
 
-import java.io.IOException;
-
-public class ExceptionInputOutput extends IOException {
+public class ExceptionInputOutput extends IllegalArgumentException {
 
     public ExceptionInputOutput(String message) {
         super(message);

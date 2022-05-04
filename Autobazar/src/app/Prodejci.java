@@ -1,6 +1,6 @@
 package app;
 
-public class Prodejci implements Comparable<Prodejci>{
+public class Prodejci implements Comparable<Prodejci> {
 
     private String name, surname;
     private int age, exp;
@@ -12,21 +12,29 @@ public class Prodejci implements Comparable<Prodejci>{
         this.surname = surname;
         this.age = age;
         this.exp = exp;
-        this.setCarSale(3);
+    }
+
+    public Prodejci(Prodejci seller) {
+        this.exp = seller.getExp();
+        this.carSale = seller.getCarSale();
+        this.money = seller.getMoney();
+        this.name = seller.getName();
+        this.age = seller.getAge();
+        this.surname = seller.getSurname();
     }
 
     public int getCarSale() {
         return carSale;
     }
 
-    public void setCarSale(int carSale){    //exception
-        this.carSale = 3;
+    public void setCarSale(int carSale) {
+        this.carSale = carSale;
     }
 
     public String getName() {
         return this.name;
     }
-    
+
     public String getSurname() {
         return this.surname;
     }
@@ -65,12 +73,13 @@ public class Prodejci implements Comparable<Prodejci>{
 
     @Override
     public String toString() {
-        return String.format("%-10s %-15s %-10d %-10d\n",getName(),getSurname(),getAge(),getExp());
+        return String.format("%-10s %-15s %-10d %-10d\n", getName(), getSurname(), getAge(), getExp());
     }
 
-    public double commission() {
-        //použití setMoney
-        return 0;
+
+    public void commission(double moneyToAdd) {
+
+        this.money += moneyToAdd;
     }
 
     public static void main(String[] args) {

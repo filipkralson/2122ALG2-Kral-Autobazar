@@ -25,6 +25,10 @@ public class Auta implements Comparable<Auta> {
         this.price = price;
     }
 
+    public Auta(Auta car) {
+        this.price = car.price;
+    }
+
     @Override
     public int compareTo(Auta o) {
         // TODO Auto-generated method stub

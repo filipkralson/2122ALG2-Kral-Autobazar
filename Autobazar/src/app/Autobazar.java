@@ -6,10 +6,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import utils.ExceptionFileNotFound;
 import utils.ExceptionInputOutput;
+import utils.ExceptionNoMoreSale;
 
 public class Autobazar {
 
@@ -17,8 +19,8 @@ public class Autobazar {
     private String name, s;
     private String[] split;
     private File file;
-    private ArrayList<Prodejci> sellers;
-    private ArrayList<Auta> cars;
+    private List<Prodejci> sellers;
+    private List<Auta> cars;
 
     public Autobazar(String name) {
         this.name = name;
@@ -144,24 +146,38 @@ public class Autobazar {
         return sellers.get(specificSellerNumber - 1);
     }
 
-    public void sellTime(Prodejci seller) {
-
-        //přidávání peněz na účet prodejce a majitele
-
+    public void sellTime(Prodejci seller) throws ExceptionNoMoreSale {
+        Auta car = new Auta(getRandomCar());
         double priceModif;
-        if (seller.getExp() <= 10 && seller.getExp() >= 8) {
-            priceModif = getRandomCar().getPrice() * (pickRandomPercent(5, 1) / 100);
-            seller.setMoney(priceModif * 0.1);
-        } else if (seller.getExp() <= 7 && seller.getExp() >= 4) {
-            priceModif = getRandomCar().getPrice() * (pickRandomPercent(10, 6) / 100);
-            seller.setMoney(priceModif * 0.1);
+
+        if (seller.getCarSale() >= 3) {
+            throw new ExceptionNoMoreSale("Prodejce již nemůže prodávat!");
         } else {
-            priceModif = getRandomCar().getPrice() * (pickRandomPercent(15, 11) / 100);
-            seller.setMoney(priceModif * 0.1);
+            if (seller.getExp() <= 10 && seller.getExp() >= 8) {
+                priceModif = car.getPrice() * (pickRandomPercent(5, 0) / 100);
+                System.out.println(car.getPrice());
+                seller.commission(priceModif*0.1);
+                seller.setCarSale(seller.getCarSale() + 1);
+                // cars.remove(car);
+            } else if (seller.getExp() <= 7 && seller.getExp() >= 4) {
+                priceModif = car.getPrice() * (pickRandomPercent(10, 6) / 100);
+                System.out.println(car);
+                seller.commission(priceModif * 0.1);
+                seller.setCarSale(seller.getCarSale() + 1);
+                // cars.remove(car);
+            } else {
+                priceModif = car.getPrice() * (pickRandomPercent(15, 11) / 100);
+                System.out.println(car);
+                seller.commission(priceModif * 0.1);
+                seller.setCarSale(seller.getCarSale() + 1);
+                // cars.remove(car);
+            }
         }
     }
 
-    public static void main(String[] args) throws ExceptionFileNotFound, ExceptionInputOutput {
+    // přidat sort, vybírat z rovnou seřazeného seznamu
+
+    public static void main(String[] args) throws ExceptionFileNotFound, ExceptionInputOutput, ExceptionNoMoreSale {
         Autobazar abc = new Autobazar("ABC");
         abc.addSeller(new Prodejci("Josef", "Krátký", 30, 10));
         abc.addSeller(new Prodejci("Arnošta", "z Pardubic", 55, 8));
@@ -171,9 +187,11 @@ public class Autobazar {
         System.out.println(abc.printSellers());
         ui.AutobazarApp.displayCarsHead();
         System.out.println(abc.printCars());
-        abc.sellTime(abc.getSpecificSeller(1));
-        System.out.println(abc.getRandomCar());
-        System.out.println(abc.getSpecificSeller(1).getMoney());
-        System.out.println(abc.pickRandomPercent(5, 1) / 100);
+        for (int i = 0; i < 3; i++) {
+            abc.sellTime(abc.getSpecificSeller(1));
+            System.out.println(abc.getSpecificSeller(1).getMoney());
+            System.out.println(abc.getSpecificSeller(1).getCarSale());
+        }
+
     }
 }
