@@ -1,6 +1,6 @@
 package app;
 
-public class Prodejci implements Comparable<Prodejci> {
+public class Prodejci {
 
     private String name, surname;
     private int age, exp;
@@ -14,13 +14,16 @@ public class Prodejci implements Comparable<Prodejci> {
         this.exp = exp;
     }
 
+    /**
+     * defenzivní konstruktor
+     */
     public Prodejci(Prodejci seller) {
-        this.exp = seller.getExp();
-        this.carSale = seller.getCarSale();
-        this.money = seller.getMoney();
-        this.name = seller.getName();
-        this.age = seller.getAge();
-        this.surname = seller.getSurname();
+        this.exp = seller.exp;
+        this.carSale = seller.carSale;
+        this.money = seller.money;
+        this.name = seller.name;
+        this.age = seller.age;
+        this.surname = seller.surname;
     }
 
     public int getCarSale() {
@@ -86,11 +89,5 @@ public class Prodejci implements Comparable<Prodejci> {
         Prodejci prodejce = new Prodejci("Josef", "Schulin", 25, 4);
         System.out.println(prodejce);
 
-    }
-
-    @Override
-    public int compareTo(Prodejci o) {
-        // TODO Auto-generated method stub
-        return 0;
     }
 }

@@ -5,15 +5,33 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
+import java.util.Collections;
+import java.util.Comparator;
 
 import utils.ExceptionFileNotFound;
 import utils.ExceptionInputOutput;
 import utils.ExceptionNoMoreSale;
 
 public class Autobazar {
+
+    public static final Collator col = Collator.getInstance(new Locale("cs", "CZ"));
+   
+    public static final Comparator<Auta> COMP_BY_BRAND = (Auta c1, Auta c2) -> {
+        int value = col.compare(c1.getBrand(), c2.getBrand());
+        if (value == 0) {
+            value = col.compare(c1.getModel(), c2.getModel());
+        }
+        return value;
+    };
+
+    public static final Comparator<Prodejci> COMP_BY_EXP = (Prodejci p1, Prodejci p2) -> {
+        return p2.getExp()-p1.getExp();
+    };
 
     private Random random;
     private String name, s;
@@ -59,20 +77,16 @@ public class Autobazar {
     public String getSpecificCar(int specificCar) {
         StringBuilder s = new StringBuilder();
 
-        s.append(cars.get(specificCar - 1));
+        s.append(getCarsSortedByBrand().get(specificCar - 1));
 
         return s.toString();
     }
 
-    @Override
-    public String toString() {
-        return String.format("Autobazar %s má %d aut a %d prodejců.\n", getName(), getCarsCount(), getSellersCount());
-    }
-
-    public String printSellers() {
+    public String printSellers() {      //přispůsobit pro použití do sellersSortByExpToString()
         StringBuilder s = new StringBuilder();
         int count = 0;
 
+        ui.AutobazarApp.displaySellersHead();
         for (Prodejci seller : sellers) {
             s.append((count += 1) + ". ").append(seller);
         }
@@ -82,15 +96,16 @@ public class Autobazar {
 
     public void writeCars() throws ExceptionFileNotFound, ExceptionInputOutput {
 
-        // změnit cestu k souboru, nainicializovat proměnné jako private
+        //čárku na tečku
 
         System.setProperty("file.encoding", "UTF-8");
-        file = new File("/Users/filip/Documents/ALG2-SemestralProject/Autobazar/src/cars.csv");
         s = "";
+        file = new File("./Autobazar/src/cars.csv");
         try {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 while ((s = reader.readLine()) != null) {
                     split = s.split(";");
+                    
                     String brand = split[0];
                     String model = split[1];
                     String engineCapacity = split[2];
@@ -108,7 +123,8 @@ public class Autobazar {
 
                     cars.add(new Auta(brand, model, dblEngine, dblKW, intKm, intYear, fuel, color, intPrice));
                 }
-
+                reader.close();
+                //něco s finally, podívat se na ukázkovej bufferedreader stream zápis :)
             } catch (FileNotFoundException e) {
                 throw new ExceptionFileNotFound("Zadaný soubor nebyl nalezen!");
             } catch (IOException e) {
@@ -119,21 +135,66 @@ public class Autobazar {
         }
     }
 
-    public String printCars() {
+    public String printCars() {     
         StringBuilder s = new StringBuilder();
-
+        int count = 0;
+        ui.AutobazarApp.displayCarsHead();
         for (Auta car : cars) {
-            s.append(car);
+            if(count <9) {
+              s.append(count += 1).append(".  ").append(car);  
+            } else {
+                s.append(count += 1).append(". ").append(car);  
+            }
+            
         }
 
         return s.toString();
+    }
+
+    public void sellersSortByExp() {
+        Collections.sort(sellers, COMP_BY_EXP);
+    }
+
+    public void carsSortByBrand() {
+        Collections.sort(cars, COMP_BY_BRAND);
+    }
+
+    //deep copy
+    public ArrayList<Auta> getCars() {
+        ArrayList<Auta> copy = new ArrayList<>();
+        for (Auta car : cars) {
+            copy.add(new Auta(car));
+        }
+        return copy;
+    }
+    public ArrayList<Prodejci> getSellers() {
+        ArrayList<Prodejci> copy = new ArrayList<>();
+        for (Prodejci seller : sellers) {
+            copy.add(new Prodejci(seller));
+        }
+        return copy;
+    }
+
+    public ArrayList<Prodejci> getSellersSortedByExp() {
+        sellersSortByExp();
+        return getSellers();
+    }
+
+    /**
+     * Metoda pro dostání ArrayListu seřazených aut pro další práci
+     * 
+     * @return getCars();
+     */
+    public ArrayList<Auta> getCarsSortedByBrand() {
+        carsSortByBrand();
+        return getCars();
     }
 
     public Auta getRandomCar() {
 
         random = new Random();
 
-        return cars.get(random.nextInt(cars.size()));
+        return getCarsSortedByBrand().get(random.nextInt(getCarsSortedByBrand().size()));
 
     }
 
@@ -143,31 +204,31 @@ public class Autobazar {
     }
 
     public Prodejci getSpecificSeller(int specificSellerNumber) {
-        return sellers.get(specificSellerNumber - 1);
+        return getSellersSortedByExp().get(specificSellerNumber-1);
     }
 
     public void sellTime(Prodejci seller) throws ExceptionNoMoreSale {
         Auta car = new Auta(getRandomCar());
         double priceModif;
-
+        
         if (seller.getCarSale() >= 3) {
             throw new ExceptionNoMoreSale("Prodejce již nemůže prodávat!");
         } else {
             if (seller.getExp() <= 10 && seller.getExp() >= 8) {
-                priceModif = car.getPrice() * (pickRandomPercent(5, 0) / 100);
                 System.out.println(car.getPrice());
+                priceModif = car.getPrice() * (pickRandomPercent(5, 0) / 100);
                 seller.commission(priceModif*0.1);
                 seller.setCarSale(seller.getCarSale() + 1);
+                System.out.println(seller.getMoney());
+                System.out.println(seller.getCarSale());
                 // cars.remove(car);
             } else if (seller.getExp() <= 7 && seller.getExp() >= 4) {
                 priceModif = car.getPrice() * (pickRandomPercent(10, 6) / 100);
-                System.out.println(car);
                 seller.commission(priceModif * 0.1);
                 seller.setCarSale(seller.getCarSale() + 1);
                 // cars.remove(car);
             } else {
                 priceModif = car.getPrice() * (pickRandomPercent(15, 11) / 100);
-                System.out.println(car);
                 seller.commission(priceModif * 0.1);
                 seller.setCarSale(seller.getCarSale() + 1);
                 // cars.remove(car);
@@ -175,23 +236,32 @@ public class Autobazar {
         }
     }
 
-    // přidat sort, vybírat z rovnou seřazeného seznamu
-
+    // přidat ukládání do souboru a potom export do .pdf
+    // udělat main
+    
+    @Override
+    public String toString() {
+        return String.format("Autobazar %s má %d aut a %d prodejců.\n", getName(), getCarsCount(), getSellersCount());
+    }
     public static void main(String[] args) throws ExceptionFileNotFound, ExceptionInputOutput, ExceptionNoMoreSale {
+
         Autobazar abc = new Autobazar("ABC");
-        abc.addSeller(new Prodejci("Josef", "Krátký", 30, 10));
+        abc.addSeller(new Prodejci("Josef", "Krátký", 30, 4));
         abc.addSeller(new Prodejci("Arnošta", "z Pardubic", 55, 8));
+        abc.addSeller(new Prodejci("Jirkos", "Man", 47, 5));
+        abc.addSeller(new Prodejci("Dežo", "Man", 31, 10));     //exception na zadání vyššího jak 10.lvl
         abc.writeCars();
         System.out.println(abc);
-        ui.AutobazarApp.displaySellersHead();
+        abc.sellersSortByExp();
         System.out.println(abc.printSellers());
-        ui.AutobazarApp.displayCarsHead();
+        abc.carsSortByBrand();
         System.out.println(abc.printCars());
-        for (int i = 0; i < 3; i++) {
-            abc.sellTime(abc.getSpecificSeller(1));
-            System.out.println(abc.getSpecificSeller(1).getMoney());
-            System.out.println(abc.getSpecificSeller(1).getCarSale());
-        }
+        System.out.println(abc.getRandomCar());
+        abc.sellTime(abc.getSpecificSeller(2));
+        
+        //funguje jenom v cyklu 
+        System.out.println(abc.getSpecificSeller(2).getMoney());
+        System.out.println(abc.getSpecificSeller(2).getCarSale());
 
     }
 }

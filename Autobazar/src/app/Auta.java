@@ -1,6 +1,6 @@
 package app;
 
-public class Auta implements Comparable<Auta> {
+public class Auta {
 
     private String brand;
     private String model;
@@ -25,14 +25,17 @@ public class Auta implements Comparable<Auta> {
         this.price = price;
     }
 
-    public Auta(Auta car) {
-        this.price = car.price;
-    }
-
-    @Override
-    public int compareTo(Auta o) {
-        // TODO Auto-generated method stub
-        return 0;
+    //defenzivní kopie
+    public Auta(Auta c) {
+        this.brand = c.brand;
+        this.model = c.model;
+        this.engineCapacity = c.engineCapacity;
+        this.kilowatts = c.kilowatts;
+        this.kilometers = c.kilometers;
+        this.yearOfManufacture = c.yearOfManufacture;
+        this.fuel = c.fuel;
+        this.color = c.color;
+        this.price = c.price;
     }
 
     public String getFuel() {
