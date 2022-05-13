@@ -42,7 +42,6 @@ public class Autobazar {
         }
         return value;
     };
-
     public static final Comparator<Prodejci> COMP_BY_EXP = (Prodejci p1, Prodejci p2) -> {
         return p2.getExp() - p1.getExp();
     };
@@ -95,7 +94,7 @@ public class Autobazar {
         return s.toString();
     }
 
-    public String printSellers() { // přispůsobit pro použití do sellersSortByExpToString()
+    public String printSellers() {
         StringBuilder s = new StringBuilder();
         int count = 0;
 
@@ -152,12 +151,14 @@ public class Autobazar {
 
         // ukládat seznam prodejců s profitem, ukládat počet prodaných aut a jejich
         // celková cena, uložit čistý profit (všechno přes StringBuiler)
+        // následné čtení z vygenerovaného pdf, zapisování do konzole
 
         PdfDocument pdfDoc = new PdfDocument(
-                new PdfWriter("C:/Users/filip/Documents/ALG2-SemestralProject/Autobazar/src/data"));
+                new PdfWriter("C:/Users/filip/Documents/ALG2-SemestralProject/Autobazar/src/data/results.pdf"));
         Document doc = new Document(pdfDoc);
         FontProgram impact = FontProgramFactory.createFont(IMPACT_FONT);
         FontProgram liberation = FontProgramFactory.createFont(LIBERATIONSANS_REGULAR);
+
         PdfFont impactFont = PdfFontFactory.createFont(impact, PdfEncodings.UTF8);
         PdfFont liberationFont = PdfFontFactory.createFont(liberation, PdfEncodings.UTF8);
         String headder = "TÝDENNÍ VYÚČTOVÁNÍ";
@@ -259,6 +260,7 @@ public class Autobazar {
             throw new ExceptionNoMoreSale("Prodejce již nemůže prodávat!");
         } else {
             if (seller.getExp() <= 10 && seller.getExp() >= 8) {
+                //java.time, čas prodeje auta, zapisovat do konzole 
                 // System.out.println(car.getPrice());
                 priceModif = car.getPrice() * (pickRandomPercent(5, 0) / 100);
                 seller.commission(priceModif * 0.1);
@@ -301,10 +303,9 @@ public class Autobazar {
         System.out.println(abc.printSellers());
         abc.carsSortByBrand();
         System.out.println(abc.printCars());
-        abc.saveToFile();
         abc.sellTime(abc.getSpecificSeller(2));
         System.out.println(abc.getSpecificSeller(2).getExp());
-        
+        abc.saveToFile();        
 
     }
 }
