@@ -2,6 +2,6 @@ package utils;
 
 public interface AutobazarInterface {
 
-    public String getSpecificCar(int specificCar);
+    //zapsat všechny metody použitelné v UI
     
 }

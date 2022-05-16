@@ -1,5 +1,5 @@
 package utils;
 
 public enum AutobazarEnum {
-    SA,SP,P;
+    SA,SP,P,K;
 }
