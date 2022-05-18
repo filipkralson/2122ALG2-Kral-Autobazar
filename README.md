@@ -14,8 +14,9 @@ Pracovní týden má 5 dní, pracovní doba je od 9:00 do 17:00, přičemž denn
 
 UI bude vypadat následovně: 
   1. ukázat seznam aut
-  2. ukázat seznam prodejců se zkušenostmi a počtem prodaných aut
-  3. zahaj prodej
+      * Zobrazit seřazený nebo originální seznam? 
+  3. ukázat seznam prodejců se zkušenostmi a počtem prodaných aut
+  4. zahaj prodej
       * Přišel zákazník, vybral si auto xy
         * <vypíše se objekt auta s atributy>
       * Kterého prodejce si chceš vybrat?
