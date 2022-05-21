@@ -4,7 +4,6 @@ public class Prodejci {
 
     private String name, surname;
     private int age, exp;
-    private int carSale;
     private double money;
 
     /**
@@ -29,29 +28,10 @@ public class Prodejci {
      */
     public Prodejci(Prodejci seller) {
         this.exp = seller.exp;
-        this.carSale = seller.carSale;
         this.money = seller.money;
         this.name = seller.name;
         this.age = seller.age;
         this.surname = seller.surname;
-    }
-
-    /**
-     * Method for getting car sale of a each seller
-     * 
-     * @return int
-     */
-    public int getCarSale() {
-        return carSale;
-    }
-
-    /**
-     * Method for setting car sale for a each seller
-     * 
-     * @param carSale
-     */
-    public void setCarSale(int carSale) {
-        this.carSale = carSale;
     }
 
     /**
@@ -136,15 +116,6 @@ public class Prodejci {
     }
 
     /**
-     * Method for setting money for a each seller
-     * 
-     * @param money
-     */
-    public void setMoney(double money) {
-        this.money = money;
-    }
-
-    /**
      * Method for adding money
      * 
      * @param moneyToAdd
@@ -157,7 +128,7 @@ public class Prodejci {
 
     @Override
     public String toString() {
-        return String.format("%-10s %-15s %-10d %-10d\n", getName(), getSurname(), getAge(), getExp());
+        return String.format("%-15s %-15s %-10d %-10d\n", getName(), getSurname(), getAge(), getExp());
     }
 
     /*
