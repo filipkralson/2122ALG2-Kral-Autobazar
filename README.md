@@ -53,7 +53,7 @@ Návrh menu s metodami
 
 Vstupní soubory jsou typu .csv a jednotlivé údaje o autech a prodejcích jsou odděleny středníkem (;). U objektů File s cestou k souborům je jasně dán název souborů a to cars.csv a sellers.csv.
 
-Výstupní soubory budou 2. Jeden soubor bude ve formátu .pdf s jasně dannou ukládací cestou do ../Autobazar/src/data/results.pdf. Budou v něm data, která jsem již zmiňoval z zadání práce. Ve stejném čase se uloží i binární soubor .bin s jasně dannou ukládací cestou do ../Autobazar/src/data/results.dat, do kterého se uloží stejná data jako do .pdf a bude z něj následně vypisováno přes metodu do konzole.
+Výstupní soubory budou 2. Jeden soubor bude ve formátu .pdf s jasně danou ukládací cestou do ../Autobazar/src/data/results.pdf. Budou v něm data, která jsem již zmiňoval z zadání práce. Ve stejném čase se uloží i binární soubor .bin s jasně danou ukládací cestou do ../Autobazar/src/data/results.dat, do kterého se uloží stejná data jako do .pdf a bude z něj následně vypisováno přes metodu do konzole.
 
 ## Testování
 
