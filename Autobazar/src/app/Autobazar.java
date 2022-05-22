@@ -12,10 +12,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.Collator;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-import java.time.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -25,10 +25,16 @@ import utils.ExceptionInputOutput;
 import utils.ExceptionNoMoreSale;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.PdfWriter;   
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 
+/**
+ * Class with common Autobazar methods
+ * 
+ * @author filip.kral
+ * 
+ */
 public class Autobazar implements AutobazarInterface {
 
     public static final Collator col = Collator.getInstance(new Locale("cs", "CZ"));
@@ -43,10 +49,10 @@ public class Autobazar implements AutobazarInterface {
         return value;
     };
     public static final Comparator<Prodejci> COMP_BY_EXP = (Prodejci p1, Prodejci p2) -> {
-        if((p2.getExp() - p1.getExp())==0) {
+        if ((p2.getExp() - p1.getExp()) == 0) {
             return p2.getAge() - p1.getAge();
         }
-        return p2.getExp()-p1.getExp();
+        return p2.getExp() - p1.getExp();
     };
 
     public static final File fileSellers = new File("../Autobazar/src/sellers.csv");
@@ -54,13 +60,13 @@ public class Autobazar implements AutobazarInterface {
     public static final File fileResultsPdf = new File("../Autobazar/src/data/results.pdf");
     public static final File fileResultsBinary = new File("../Autobazar/src/data/results.dat");
 
-
     private Random random;
     private String name, s;
     private String[] split;
-    private List<Prodejci> sellers;
-    private List<Auta> cars;
+    private ArrayList<Prodejci> sellers;
+    private ArrayList<Auta> cars;
     private double money;
+    private int soldCars;
 
     /**
      * Constructor
@@ -71,6 +77,14 @@ public class Autobazar implements AutobazarInterface {
         this.name = name;
         cars = new ArrayList<>();
         sellers = new ArrayList<>();
+    }
+
+    public int getSoldCars() {
+        return soldCars;
+    }
+
+    public void setSoldCars(int soldCars) {
+        this.soldCars = soldCars + this.soldCars;
     }
 
     /**
@@ -105,7 +119,7 @@ public class Autobazar implements AutobazarInterface {
      * 
      * @param seller
      */
-    public void addSeller(Prodejci seller) { // exception, aby nebylo možné zadat stejné prodejce
+    public void addSeller(Prodejci seller) {
         sellers.add(seller);
     }
 
@@ -165,7 +179,6 @@ public class Autobazar implements AutobazarInterface {
      * @throws ExceptionFileNotFound
      */
     public String printSellers() throws ExceptionFileNotFound, ExceptionInputOutput {
-        System.setProperty("file.encoding", "UTF-8");
         StringBuilder s = new StringBuilder();
         int count = 0;
         loadSellsers();
@@ -195,7 +208,7 @@ public class Autobazar implements AutobazarInterface {
             s.append((count += 1) + ". ").append(seller);
         }
 
-        return s.toString(); 
+        return s.toString();
     }
 
     /**
@@ -206,9 +219,7 @@ public class Autobazar implements AutobazarInterface {
      * @throws ExceptionInputOutput
      */
     public void loadCars() throws ExceptionFileNotFound, ExceptionInputOutput {
-
         cars.clear();
-        System.setProperty("file.encoding", "UTF-8");
         // čárku na tečku
         s = "";
         try (BufferedReader reader = new BufferedReader(new FileReader(fileCars))) {
@@ -253,8 +264,6 @@ public class Autobazar implements AutobazarInterface {
      */
     public void loadSellsers() throws ExceptionFileNotFound, ExceptionInputOutput {
         sellers.clear();
-        System.setProperty("file.encoding", "UTF-8");
-        // čárku na tečku
         s = "";
         try (BufferedReader reader = new BufferedReader(new FileReader(fileSellers))) {
 
@@ -271,7 +280,7 @@ public class Autobazar implements AutobazarInterface {
                 exp = split[3];
                 iExp = Integer.parseInt(exp);
 
-                sellers.add(new Prodejci(name,surname,iAge,iExp));
+                sellers.add(new Prodejci(name, surname, iAge, iExp));
             }
             reader.close();
         } catch (FileNotFoundException e) {
@@ -290,72 +299,91 @@ public class Autobazar implements AutobazarInterface {
      */
     public void saveToFile(File results) throws ExceptionInputOutput, IOException {
 
-        // ukládat seznam prodejců s profitem, ukládat počet prodaných aut a jejich
-        // celková cena, uložit profit bazaru, uložit čistý profit (všechno přes
-        // StringBuiler)
-
-
         PdfWriter pdfWriter = new PdfWriter(results);
         PdfDocument pdfDocument = new PdfDocument(pdfWriter);
         pdfDocument.addNewPage();
         Document document = new Document(pdfDocument);
-        
-       /* FontProgram impact = FontProgramFactory.createFont(IMPACT_FONT);
-        FontProgram liberation = FontProgramFactory.createFont(LIBERATIONSANS_REGULAR);
 
-        PdfFont impactFont = PdfFontFactory.createFont(impact, PdfEncodings.UTF8);
-        PdfFont liberationFont = PdfFontFactory.createFont(liberation, PdfEncodings.UTF8);
-      */  
+        /*
+         * FontProgram impact = FontProgramFactory.createFont(IMPACT_FONT);
+         * FontProgram liberation =
+         * FontProgramFactory.createFont(LIBERATIONSANS_REGULAR);
+         * 
+         * PdfFont impactFont = PdfFontFactory.createFont(impact, PdfEncodings.UTF8);
+         * PdfFont liberationFont = PdfFontFactory.createFont(liberation,
+         * PdfEncodings.UTF8);
+         */
         String headder = "TÝDENNÍ VYÚČTOVÁNÍ";
         Paragraph para1 = new Paragraph(headder);
+        String carsCount = String.valueOf(cars.size()-getSoldCars());
+        String dblMoney = String.valueOf(getMoney());
+        String dblTotal = String.valueOf(getMoney()-sellersMoney());
 
-        Paragraph para2 = new Paragraph(printCarsSorted());
+        Paragraph para2 = new Paragraph(printSellersSorted());
+        Paragraph para3 = new Paragraph("Bylo prodáno: ");
+        Paragraph para4 = new Paragraph(carsCount);
+        Paragraph para5 = new Paragraph("za: ");
+        Paragraph para6 = new Paragraph(dblMoney);
+        Paragraph para7 = new Paragraph("Celkový výnos je: ");
+        Paragraph para8 = new Paragraph(dblTotal);
 
         document.add(para1);
         document.add(para2);
+        document.add(para3);
+        document.add(para4);
+        document.add(para5);
+        document.add(para6);
+        document.add(para7);
+        document.add(para8);
 
         document.close();
     }
 
+    /**
+     * Method for saving week results into .bin file
+     */
     public void saveToBinary(File results) throws FileNotFoundException, IOException {
         try (DataOutputStream out = new DataOutputStream(new FileOutputStream(results, true))) {
-            out.writeInt(cars.size());
-            for (Auta car : cars) {
-                out.writeUTF(car.getBrand());
-                out.writeUTF(car.getModel());
-                out.writeInt(car.getKilowatts());
+            for (Prodejci seller : sellers) {
+                out.writeUTF(seller.getName());
+                out.writeUTF(seller.getSurname());
+                out.writeInt(seller.getAge());
+                out.writeInt(seller.getExp());
+                out.writeDouble(seller.getMoney());
+                out.flush();
             }
+            out.writeUTF("Bylo prodáno: ");
+            out.writeInt(35-cars.size());
+            out.writeUTF(" za: ");
+            out.writeDouble(getMoney());
+            out.writeUTF("Celkový výnos je: ");
+            out.writeDouble(getMoney()-sellersMoney());
         }
     }
 
+    /**
+     * Method for reading binary file
+     * 
+     * @return String sb
+     */
     public String readBinaryResults(File results) throws FileNotFoundException, IOException {
         StringBuilder sb = new StringBuilder();
         try (DataInputStream in = new DataInputStream(new FileInputStream(results))) {
-            boolean end = false;
-            int nBrand, nModel, nKilowatts = 0;
-            int kilowatts = 1;
-            String brand = "", model = "";
-            while (!end) {
-                try {
-                    nBrand = in.readInt();
-                    for (int i = 0; i < nBrand; i++) {
-                        brand = in.readUTF();
-                        nModel = in.readInt();
-                        model = "";
-                        for (int j = 0; j < nModel; j++) {
-                            model += in.readUTF();
-                            kilowatts = 0;
-                            for (int k = 0; k < nKilowatts; k++) {
-                                kilowatts += in.readInt();
-                                sb.append(String.format("%10s%10s%5d", brand, model, kilowatts));
-                            }
-                        }
-                    }
-                    sb.append("\n");
-                } catch (EOFException e) {
-                    end = true;
-                }
+            while (in.available() > 0) {
+                String name = in.readUTF();
+                String surname = in.readUTF();
+                int age = in.readInt();
+                int exp = in.readInt();
+                double money = in.readDouble();
+
+                Prodejci seller = new Prodejci(name, surname, age, exp);
+                sb.append(seller).append(money);
+            
+                
             }
+            sb.append(in.readUTF()).append(in.readInt()).append(in.readUTF()).append(in.readDouble()).append(in.readUTF()).append(in.readDouble());
+        } catch (EOFException e) {
+            throw new EOFException("Chyba při čtení!");
         }
         return sb.toString();
     }
@@ -368,7 +396,6 @@ public class Autobazar implements AutobazarInterface {
      * @throws ExceptionFileNotFound
      */
     public String printCars() throws ExceptionFileNotFound, ExceptionInputOutput {
-        System.setProperty("file.encoding", "UTF-8");
         StringBuilder s = new StringBuilder();
         int count = 0;
         ui.AutobazarApp.displayCarsHead();
@@ -391,7 +418,6 @@ public class Autobazar implements AutobazarInterface {
      * @return String s
      */
     public String printCarsSorted() throws ExceptionFileNotFound, ExceptionInputOutput {
-        System.setProperty("file.encoding", "UTF-8");
         StringBuilder s = new StringBuilder();
         int count = 0;
         ui.AutobazarApp.displayCarsHead();
@@ -436,17 +462,30 @@ public class Autobazar implements AutobazarInterface {
     }
 
     /**
-     * Method for deep copy of sellers list 
+     * Method for deep copy of sellers list
      * 
      * @return ArrayList copy
      */
     public ArrayList<Prodejci> getSellers() {
         ArrayList<Prodejci> copy = new ArrayList<>();
-        for(Prodejci seller: sellers) {
-                copy.add(new Prodejci(seller));
+        for (Prodejci seller : sellers) {
+            copy.add(new Prodejci(seller));
         }
         return copy;
 
+    }
+
+    /**
+     * Method for getting money from sellers
+     * 
+     * @return money
+     */
+    public double sellersMoney() {
+        double money = 0;
+        for (Prodejci seller: sellers) {
+            money += seller.getMoney();
+        }
+        return money;
     }
 
     /**
@@ -503,6 +542,13 @@ public class Autobazar implements AutobazarInterface {
         return getSellersSortedByExp().get(specificSellerNumber - 1);
     }
 
+    public String saleTime() {
+        LocalDateTime time = LocalDateTime.now();
+        DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String timeFormated = time.format(formatTime);
+        return timeFormated;
+    }
+
     /**
      * Method for making a sale
      * 
@@ -511,40 +557,42 @@ public class Autobazar implements AutobazarInterface {
      * @throws ExceptionInputOutput
      * @throws ExceptionFileNotFound
      */
-    public void sellTime(Prodejci seller, Auta car) throws ExceptionNoMoreSale, ExceptionFileNotFound, ExceptionInputOutput {
+    public void sellTime(Prodejci seller, Auta car)
+            throws ExceptionNoMoreSale, ExceptionFileNotFound, ExceptionInputOutput {
         sellersSortByExp();
         carsSortByBrand();
         double priceModif;
         double sellerCommision;
 
-            if (seller.getExp() <= 10 && seller.getExp() >= 8) {
-                // java.time, čas prodeje auta (random od 9:00 do 17:00), zapisovat do konzole
-                priceModif = car.getPrice() * (pickRandomPercent(5, 0) / 100);
-                sellerCommision = seller.commission(priceModif * 0.1);
-                seller.commission(sellerCommision);
-                System.out.println(seller.getMoney());
-                bankAccount(priceModif - sellerCommision);
-                // cars.remove(car);
-            } else if (seller.getExp() <= 7 && seller.getExp() >= 4) {
-                priceModif = car.getPrice() * (pickRandomPercent(10, 6) / 100);
-                sellerCommision = seller.commission(priceModif * 0.1);
-                seller.commission(sellerCommision);
-                bankAccount(priceModif - sellerCommision);
-                // cars.remove(car);
-            } else {
-                priceModif = car.getPrice() * (pickRandomPercent(15, 11) / 100);
-                sellerCommision = seller.commission(priceModif * 0.1);
-                seller.commission(sellerCommision);
-                bankAccount(priceModif - sellerCommision);
-                // cars.remove(car);
-            }
+        if (seller.getExp() <= 10 && seller.getExp() >= 8) {
+            priceModif = car.getPrice() * (pickRandomPercent(5, 0) / 100);
+            sellerCommision = seller.commission(priceModif * 0.1);
+            seller.commission(sellerCommision);
+            bankAccount(priceModif - sellerCommision);
+            setSoldCars(1);
+            // cars.remove(car);
+        } else if (seller.getExp() <= 7 && seller.getExp() >= 4) {
+            priceModif = car.getPrice() * (pickRandomPercent(10, 6) / 100);
+            sellerCommision = seller.commission(priceModif * 0.1);
+            seller.commission(sellerCommision);
+            bankAccount(priceModif - sellerCommision);
+            setSoldCars(1);
+            // cars.remove(car);
+        } else {
+            priceModif = car.getPrice() * (pickRandomPercent(15, 11) / 100);
+            sellerCommision = seller.commission(priceModif * 0.1);
+            seller.commission(sellerCommision);
+            bankAccount(priceModif - sellerCommision);
+            setSoldCars(1);
+            // cars.remove(car);
         }
-    
+    }
 
+    // zprovoznit pdf ukládání a binary
 
-    // zprovoznit pdf ukládání
-    // saveToBinary a readFromBinary do konzole, bude fungovat spolu s ukládáním do
-    // .pdf, uloží se tam stejná data
+    public void setEncoding() {
+        System.setProperty("file.encoding", "UTF-8");
+    }
 
     @Override
     public String toString() {
@@ -552,9 +600,8 @@ public class Autobazar implements AutobazarInterface {
     }
 
     public static void main(String[] args) throws ExceptionInputOutput, ExceptionNoMoreSale, IOException {
-
-        System.setProperty("file.encoding", "UTF-8");
         Autobazar abc = new Autobazar("ABC");
+        abc.setEncoding();
         abc.sellersSortByExp();
         System.out.println(abc.printSellers());
         abc.carsSortByBrand();
@@ -562,10 +609,10 @@ public class Autobazar implements AutobazarInterface {
         abc.sellTime(abc.getSpecificSeller(2), abc.getRandomCar());
         System.out.println(abc.getSpecificSeller(2).getMoney());
         System.out.println(abc.getMoney());
-        //abc.saveToBinary(fileResults);
-        //System.out.println(abc.readBinaryResults(fileResults));
-        //System.out.println(abc.getSpecificCar(8));
-        //abc.saveToFile(fileResultsPdf);
+        // abc.saveToBinary(fileResults);
+        // System.out.println(abc.readBinaryResults(fileResults));
+        // System.out.println(abc.getSpecificCar(8));
+        abc.saveToFile(fileResultsPdf);
         System.out.println("Hi");
         System.out.println(abc);
     }

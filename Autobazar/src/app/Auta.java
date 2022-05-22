@@ -1,5 +1,10 @@
 package app;
 
+/**
+ * Class of Auta object
+ * 
+ * @author filip.kral
+ */
 public class Auta {
 
     private String brand;

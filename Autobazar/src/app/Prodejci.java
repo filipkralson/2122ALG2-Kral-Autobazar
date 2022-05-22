@@ -1,5 +1,10 @@
 package app;
 
+/**
+ * Class of Prodejci object
+ * 
+ * @author filip.kral
+ */
 public class Prodejci {
 
     private String name, surname;
