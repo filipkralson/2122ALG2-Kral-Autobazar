@@ -1,6 +1,5 @@
 package utils;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 
 import com.itextpdf.io.exceptions.IOException;
@@ -24,13 +23,12 @@ public interface AutobazarInterface {
     public void loadCars() throws ExceptionFileNotFound, ExceptionInputOutput;
     public Auta getRandomCar();
     public double getMoney();
-    public void saveToFile(File results) throws ExceptionInputOutput, IOException, java.io.IOException;
-    public void saveToBinary(File results) throws FileNotFoundException, IOException, java.io.IOException;
-    public String readBinaryResults(File results) throws FileNotFoundException, IOException, java.io.IOException;
+    public void saveToFile() throws ExceptionInputOutput, IOException, java.io.IOException;
+    public void saveToBinary() throws FileNotFoundException, IOException, java.io.IOException;
+    public String readBinaryResults() throws FileNotFoundException, IOException, java.io.IOException;
     public int getCarsCount();
     public void loadSellsers() throws ExceptionFileNotFound, ExceptionInputOutput;
     public String saleTime();
-    public void setEncoding();
 
     
 }

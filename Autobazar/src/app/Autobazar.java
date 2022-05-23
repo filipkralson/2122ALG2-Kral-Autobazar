@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -55,10 +56,10 @@ public class Autobazar implements AutobazarInterface {
         return p2.getExp() - p1.getExp();
     };
 
-    public static final File fileSellers = new File("../Autobazar/src/sellers.csv");
-    public static final File fileCars = new File("../Autobazar/src/cars.csv");
-    public static final File fileResultsPdf = new File("../Autobazar/src/data/results.pdf");
-    public static final File fileResultsBinary = new File("../Autobazar/src/data/results.dat");
+    private static final File fileSellers = new File("../Autobazar/src/sellers.csv");
+    private static final File fileCars = new File("../Autobazar/src/cars.csv");
+    private static final File fileResultsPdf = new File("../Autobazar/src/data/results.pdf");
+    private static final File fileResultsBinary = new File("../Autobazar/src/data/results.dat");
 
     private Random random;
     private String name, s;
@@ -205,7 +206,11 @@ public class Autobazar implements AutobazarInterface {
         sellersSortByExp();
         ui.AutobazarApp.displaySellersHead();
         for (Prodejci seller : getSellersSortedByExp()) {
-            s.append((count += 1) + ". ").append(seller);
+            if (count < 9) {
+                s.append(count += 1).append(".  ").append(seller);
+            } else {
+                s.append(count += 1).append(". ").append(seller);
+            }
         }
 
         return s.toString();
@@ -222,7 +227,7 @@ public class Autobazar implements AutobazarInterface {
         cars.clear();
         // čárku na tečku
         s = "";
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileCars))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileCars, StandardCharsets.UTF_8))) {
 
             String brand, model, engineCapacity, kW, km, year, fuel, color, price;
             double dblEngine;
@@ -265,7 +270,7 @@ public class Autobazar implements AutobazarInterface {
     public void loadSellsers() throws ExceptionFileNotFound, ExceptionInputOutput {
         sellers.clear();
         s = "";
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileSellers))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileSellers, StandardCharsets.UTF_8))) {
 
             String name, surname, age, exp;
             int iAge, iExp;
@@ -297,9 +302,9 @@ public class Autobazar implements AutobazarInterface {
      * @throws ExceptionInputOutput
      * @throws IOException
      */
-    public void saveToFile(File results) throws ExceptionInputOutput, IOException {
+    public void saveToFile() throws ExceptionInputOutput, IOException {
 
-        PdfWriter pdfWriter = new PdfWriter(results);
+        PdfWriter pdfWriter = new PdfWriter(fileResultsPdf);
         PdfDocument pdfDocument = new PdfDocument(pdfWriter);
         pdfDocument.addNewPage();
         Document document = new Document(pdfDocument);
@@ -342,8 +347,8 @@ public class Autobazar implements AutobazarInterface {
     /**
      * Method for saving week results into .bin file
      */
-    public void saveToBinary(File results) throws FileNotFoundException, IOException {
-        try (DataOutputStream out = new DataOutputStream(new FileOutputStream(results, true))) {
+    public void saveToBinary() throws FileNotFoundException, IOException {
+        try (DataOutputStream out = new DataOutputStream(new FileOutputStream(fileResultsBinary))) {
             for (Prodejci seller : sellers) {
                 out.writeUTF(seller.getName());
                 out.writeUTF(seller.getSurname());
@@ -366,9 +371,9 @@ public class Autobazar implements AutobazarInterface {
      * 
      * @return String sb
      */
-    public String readBinaryResults(File results) throws FileNotFoundException, IOException {
+    public String readBinaryResults() throws FileNotFoundException, IOException {
         StringBuilder sb = new StringBuilder();
-        try (DataInputStream in = new DataInputStream(new FileInputStream(results))) {
+        try (DataInputStream in = new DataInputStream(new FileInputStream(fileResultsBinary))) {
             while (in.available() > 0) {
                 String name = in.readUTF();
                 String surname = in.readUTF();
@@ -590,10 +595,6 @@ public class Autobazar implements AutobazarInterface {
 
     // zprovoznit pdf ukládání a binary
 
-    public void setEncoding() {
-        System.setProperty("file.encoding", "UTF-8");
-    }
-
     @Override
     public String toString() {
         return String.format("Autobazar %s má %d aut a %d prodejců.\n", getName(), getCarsCount(), getSellersCount());
@@ -601,7 +602,7 @@ public class Autobazar implements AutobazarInterface {
 
     public static void main(String[] args) throws ExceptionInputOutput, ExceptionNoMoreSale, IOException {
         Autobazar abc = new Autobazar("ABC");
-        abc.setEncoding();
+        //abc.setEncoding();
         abc.sellersSortByExp();
         System.out.println(abc.printSellers());
         abc.carsSortByBrand();
@@ -609,10 +610,10 @@ public class Autobazar implements AutobazarInterface {
         abc.sellTime(abc.getSpecificSeller(2), abc.getRandomCar());
         System.out.println(abc.getSpecificSeller(2).getMoney());
         System.out.println(abc.getMoney());
-        // abc.saveToBinary(fileResults);
-        // System.out.println(abc.readBinaryResults(fileResults));
+        abc.saveToBinary();
+        System.out.println(abc.readBinaryResults());
         // System.out.println(abc.getSpecificCar(8));
-        abc.saveToFile(fileResultsPdf);
+        //abc.saveToFile(fileResultsPdf);
         System.out.println("Hi");
         System.out.println(abc);
     }

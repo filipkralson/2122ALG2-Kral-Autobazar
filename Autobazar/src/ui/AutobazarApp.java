@@ -1,6 +1,5 @@
 package ui;
 
-import java.io.File;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -24,8 +23,6 @@ import app.Prodejci;
 public class AutobazarApp {
 
     public static Scanner sc = new Scanner(System.in);
-    public static final File fileResultsPdf = new File("../Autobazar/src/data/results.pdf");
-    public static final File fileResultsBinary = new File("../Autobazar/src/data/results.dat");
     public static final Locale loc = new Locale("CS", "cz");
 
     public static void main(String[] args)
@@ -51,7 +48,6 @@ public class AutobazarApp {
                     System.out.println("Chceš seřazený nebo originální seznam? [S/O]");
                     choose = sc.next();
                     if (setChoose(choose).equalsIgnoreCase("S")) {
-                        abc.setEncoding();
                         System.out.println();
                         System.out.format(loc, abc.printCarsSorted());
                     } else if (setChoose(choose).equalsIgnoreCase("O")) {
@@ -84,9 +80,7 @@ public class AutobazarApp {
                                             "\nBylo prodáno auto: \n%s\ncelková provize autobazaru činní: %.2f.\n\n",
                                             car.toString(),
                                             abc.getMoney());
-                                    // nepočítá přesně seller.getMoney();
-                                    System.out.println(seller.toString());
-                                    System.out.format("%.2f\t%s\n", seller.getMoney(), abc.saleTime());
+                                    System.out.format("%s\n",abc.saleTime());
                                 } catch (ExceptionInputMissmatch e) {
                                     throw new ExceptionInputMissmatch("Zajdete správného prodejce!");
                                 }
@@ -97,9 +91,9 @@ public class AutobazarApp {
                     }
                 } else if (setChoose(choose).equalsIgnoreCase("K")) {
                     System.out.println("Dobře, vytvářím .pdf a .dat dokumenty");
-                    // abc.saveToFile();
-                    //abc.saveToBinary(fileResultsBinary);
-                    //System.out.println(abc.readBinaryResults(fileResultsBinary));
+                    //abc.saveToFile();
+                    abc.saveToBinary();
+                    System.out.println(abc.readBinaryResults());
                     System.out.println("KONEC");
                     cont = false;
                 } else {
