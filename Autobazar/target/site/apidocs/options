@@ -1,0 +1,22 @@
+-encoding
+'UTF-8'
+-protected
+-source
+'16'
+-sourcepath
+'C:/Users/filip/Documents/ALG2-SemestralProjectMaven/Autobazar/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2022. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/filip/Documents/ALG2-SemestralProjectMaven/Autobazar/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Autobazar 1.0 API'
+-use
+-version
+-windowtitle
+'Autobazar 1.0 API'
