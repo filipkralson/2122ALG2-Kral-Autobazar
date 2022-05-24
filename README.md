@@ -6,17 +6,16 @@
 
 Majitel prestižního autobazaru v Liberci tě požádal, aby si mu pomohl se simulací prodejů v jeho autobazaru. Musíš autobazar vytvořit a pojmenovat. Budeš pracovat se souborem aut, který je právě v autobazaru k dispozici a se souborem prodejců, kteří pro majitele pracují. Když v jakýkoliv den dojdou auta ze stavu, týden tímto končí.
 
-Prodej bude vypadat následovně:
+Program bude pracovat následovně:
 
-UI bude vypadat následovně: 
-  1. ukázat seznam aut
-      * Zobrazit seřazený nebo originální seznam
+  1. ukázat seřazený seznam aut
   3. ukázat seřazený seznam prodejců se zkušenostmi
   4. zahaj prodej
       * Kterého prodejce si chceš vybrat?
         * <seznam_prodejců> -> vybere prodejce
-      * Na základně zkušeností prodejce se auto prodalo za cenu x
-      * Připisuji peníze na účet bazaru a účet prodejce, zapisuji čas prodeje a vytvářím záznam o prodeji do výsledkové listiny
+      * Na základně zkušeností prodejce se auto prodalo za cenu x.
+      * Připsání peněž na účet prodejce a autobazaru.
+  5. ukončit 
 
 Bude možnost vybírat ze souborů .csv, ve kterém budou údaje o autech (značka, model, objem motoru, kW, kilometry, rok výroby, palivo, barva, cena) a o prodejcích(jméno, příjmení, věk, zkušenosti).
 
@@ -28,11 +27,7 @@ Po ukončení týdne se do terminálu a do souboru vypíše týdenní výsledkov
 
 Návrh menu s metodami
 1. Seznam aut
-    * Chceš zobrazit seřazený nebo originální seznam?
-    * if seřazený
-      * printCarsSorted();
-    * else
-      * printCars();  
+   * printCarsSorted();  
 3. Seznam prodejců
    * printSellersSorted();
 5. Prodej
@@ -56,7 +51,7 @@ Výstupní soubory budou 2. Jeden soubor bude ve formátu .pdf s jasně danou uk
 
 ### Class diagram
 
- ![Autobazar - Class diagram](/stuff/Untitled Diagram.png)
+ ![Autobazar - Class diagram](/stuff/class_diagram.png)
 
 ## Testování
 
