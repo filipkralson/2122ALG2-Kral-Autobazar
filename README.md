@@ -14,8 +14,9 @@ Program bude pracovat následnovně:
   4. zahaj prodej
       * Kterého prodejce si chceš vybrat?
         * <seznam_prodejců> -> vybere prodejce
-      * Na základně zkušeností prodejce se auto prodalo za cenu x
-      * Připisuji peníze na účet bazaru a účet prodejce, zapisuji čas prodeje a vytvářím záznam o prodeji do výsledkové listiny
+      * Na základně zkušeností prodejce se auto prodalo za cenu x.
+      * Připsání peněž na účet prodejce a autobazaru.
+  5. ukončit 
 
 Bude možnost vybírat ze souborů .csv, ve kterém budou údaje o autech (značka, model, objem motoru, kW, kilometry, rok výroby, palivo, barva, cena) a o prodejcích(jméno, příjmení, věk, zkušenosti).
 
