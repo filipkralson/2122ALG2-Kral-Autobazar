@@ -8,8 +8,7 @@ Majitel prestižního autobazaru v Liberci tě požádal, aby si mu pomohl se si
 
 Program bude pracovat následovně:
 
-  1. ukázat seznam aut
-      * Zobrazit seřazený nebo originální seznam
+  1. ukázat seřazený seznam aut
   3. ukázat seřazený seznam prodejců se zkušenostmi
   4. zahaj prodej
       * Kterého prodejce si chceš vybrat?
@@ -28,11 +27,7 @@ Po ukončení týdne se do terminálu a do souboru vypíše týdenní výsledkov
 
 Návrh menu s metodami
 1. Seznam aut
-    * Chceš zobrazit seřazený nebo originální seznam?
-    * if seřazený
-      * printCarsSorted();
-    * else
-      * printCars();  
+   * printCarsSorted();  
 3. Seznam prodejců
    * printSellersSorted();
 5. Prodej
