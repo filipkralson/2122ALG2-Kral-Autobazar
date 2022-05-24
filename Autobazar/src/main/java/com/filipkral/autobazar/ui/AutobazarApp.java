@@ -28,9 +28,14 @@ public class AutobazarApp {
     public static void main(String[] args)
             throws ExceptionInputOutput, ExceptionNoMoreSale, InterruptedException, IOException, java.io.IOException {
 
-        AutobazarInterface abc = new Autobazar("ABC");
+        System.out.println("AHOJ, vítej v programu Autobazar");
+        System.out.println("Prosím, zvol si jméno svého bazaru: ");
+        System.out.println("");
+        String name = sc.next();
+        AutobazarInterface abc = new Autobazar(name);
         abc.loadCars();
         abc.loadSellsers();
+        System.out.println();
 
         String choose = "";
         Boolean cont = true;
@@ -45,15 +50,8 @@ public class AutobazarApp {
                 choose = sc.next();
 
                 if (setChoose(choose).equalsIgnoreCase("SA")) {
-                    System.out.println("Chceš seřazený nebo originální seznam? [S,s/O,o]");
-                    choose = sc.next();
-                    if (setChoose(choose).equalsIgnoreCase("S")) {
-                        System.out.println();
-                        System.out.println(abc.printCarsSorted());
-                    } else if (setChoose(choose).equalsIgnoreCase("O")) {
-                        System.out.println();
-                        System.out.println(abc.printCars());
-                    }
+                    System.out.println();
+                    System.out.println(abc.printCarsSorted());
                 } else if (setChoose(choose).equalsIgnoreCase("SP")) {
                     System.out.println();
                     System.out.println(abc.printSellersSorted());
@@ -76,10 +74,13 @@ public class AutobazarApp {
 
                                     abc.sellTime(seller, car);
                                     System.out.format(
-                                            "\nBylo prodáno auto: \n%s\ncelková provize autobazaru činní: %.2f.\n\n",
+                                            "\nBylo prodáno auto: \n%s\ncelková provize autobazaru činní: %.2f.\n",
                                             car.toString(),
                                             abc.getMoney());
+                                    
+                                    System.out.format("%s\n\n",abc.saleTime());
                                 } else {
+                                    System.out.format("\n");
                                     contSale = false;
                                 }
                             } catch (ExceptionInputMissmatch e) {
@@ -90,7 +91,7 @@ public class AutobazarApp {
                     }
                 } else if (setChoose(choose).equalsIgnoreCase("K")) {
                     System.out.println("Dobře, vytvářím .pdf a .dat dokumenty");
-                    // abc.saveToFile();
+                    abc.saveToFile();
                     abc.saveToBinary();
                     System.out.println(abc.readBinaryResults());
                     System.out.println("KONEC");
@@ -118,10 +119,6 @@ public class AutobazarApp {
             chosen = String.valueOf(AutobazarEnum.P);
         } else if (choose.equalsIgnoreCase("K")) {
             chosen = String.valueOf(AutobazarEnum.K);
-        } else if (choose.equalsIgnoreCase("S")) {
-            chosen = String.valueOf(AutobazarEnum.S);
-        } else if (choose.equalsIgnoreCase("O")) {
-            chosen = String.valueOf(AutobazarEnum.O);
         } else if (choose.equalsIgnoreCase("A")) {
             chosen = String.valueOf(AutobazarEnum.A);
         } else {
@@ -134,14 +131,20 @@ public class AutobazarApp {
      * Method for printing sellers header
      */
     public static void displaySellersHead() {
-        System.out.format("\n%-18s %-15s %-10s %-10s\n", "Jméno", "Příjmení", "Věk", "Zkušenosti");
-        System.out.println("--------------------------------------------------------");
+        System.out.format("\n%-19s %-15s %-10s %-15s %-10s\n", "Jméno", "Příjmení", "Věk", "Zkušenosti", "Peníze");
+        System.out.println("---------------------------------------------------------------------------");
     }
 
+    /**
+     * Method for printing header for sellers 
+     * 
+     * @return String s
+     */
     public static String displaySellersHeadForExport() {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("\n%-15s %-15s %-10s %-10s\n", "Jméno", "Příjmení", "Věk", "Zkušenosti"));
-        sb.append("-----------------------------------------------------\n");
+        sb.append(
+                String.format("\n%-19s %-15s %-10s %-15s %-10s\n", "Jméno", "Příjmení", "Věk", "Zkušenosti", "Peníze"));
+        sb.append("---------------------------------------------------------------------------\n");
         return sb.toString();
     }
 
@@ -155,5 +158,4 @@ public class AutobazarApp {
                 "---------------------------------------------------------------------------------------------------------------------------------");
 
     }
-
 }

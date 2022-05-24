@@ -33,7 +33,6 @@ public class Prodejci {
      */
     public Prodejci(Prodejci seller) {
         this.exp = seller.exp;
-        this.money = seller.money;
         this.name = seller.name;
         this.age = seller.age;
         this.surname = seller.surname;
@@ -133,7 +132,7 @@ public class Prodejci {
 
     @Override
     public String toString() {
-        return String.format("%-15s %-15s %-10d %-10d \n", getName(), getSurname(), getAge(), getExp());
+        return String.format("%-15s %-15s %-10d %-15d %-10.2f\n", getName(), getSurname(), getAge(), getExp(),getMoney());
     }
 
     /*
