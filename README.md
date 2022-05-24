@@ -6,9 +6,8 @@
 
 Majitel prestižního autobazaru v Liberci tě požádal, aby si mu pomohl se simulací prodejů v jeho autobazaru. Musíš autobazar vytvořit a pojmenovat. Budeš pracovat se souborem aut, který je právě v autobazaru k dispozici a se souborem prodejců, kteří pro majitele pracují. Když v jakýkoliv den dojdou auta ze stavu, týden tímto končí.
 
-Prodej bude vypadat následovně:
+Program bude pracovat následnovně:
 
-UI bude vypadat následovně: 
   1. ukázat seznam aut
       * Zobrazit seřazený nebo originální seznam
   3. ukázat seřazený seznam prodejců se zkušenostmi
