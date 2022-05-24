@@ -11,7 +11,7 @@
         <maven.compiler.target>16</maven.compiler.target>
         <itext.version>7.2.2</itext.version>
     </properties>
-    
+
     <dependencies>
         <!-- always needed -->
         <dependency>
@@ -36,6 +36,12 @@
             <groupId>com.itextpdf</groupId>
             <artifactId>pdfa</artifactId>
             <version>${itext.version}</version>
-        </dependency>    
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.36</version>
+        </dependency>
+
     </dependencies>
 </project>

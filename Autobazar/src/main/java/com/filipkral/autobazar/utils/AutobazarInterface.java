@@ -27,7 +27,7 @@ public interface AutobazarInterface {
     public void saveToBinary() throws FileNotFoundException, IOException, java.io.IOException;
     public String readBinaryResults() throws FileNotFoundException, IOException, java.io.IOException;
     public int getCarsCount();
-    public void loadSellsers() throws ExceptionFileNotFound, ExceptionInputOutput;
+    public void loadSellsers() throws ExceptionFileNotFound, ExceptionInputOutput, IOException;
     public String saleTime();
 
     

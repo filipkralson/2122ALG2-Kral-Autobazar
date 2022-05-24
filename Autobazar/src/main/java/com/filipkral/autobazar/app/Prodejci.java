@@ -133,7 +133,7 @@ public class Prodejci {
 
     @Override
     public String toString() {
-        return String.format("%-15s %-15s %-10d %-10d\n", getName(), getSurname(), getAge(), getExp());
+        return String.format("%-15s %-15s %-10d %-10d \n", getName(), getSurname(), getAge(), getExp());
     }
 
     /*

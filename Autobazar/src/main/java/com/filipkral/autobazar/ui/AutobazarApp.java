@@ -27,16 +27,16 @@ public class AutobazarApp {
 
     public static void main(String[] args)
             throws ExceptionInputOutput, ExceptionNoMoreSale, InterruptedException, IOException, java.io.IOException {
-        
+
         AutobazarInterface abc = new Autobazar("ABC");
         abc.loadCars();
         abc.loadSellsers();
-        
+
         String choose = "";
         Boolean cont = true;
-    
         while (cont) {
             try {
+
                 System.out.println("Zadejte možnost:");
                 System.out.format("1. Seznam aut\t\t[SA/sa]\n");
                 System.out.format("2. Seznam prodejců\t[SP/sp]\n");
@@ -45,16 +45,14 @@ public class AutobazarApp {
                 choose = sc.next();
 
                 if (setChoose(choose).equalsIgnoreCase("SA")) {
-                    System.out.println("Chceš seřazený nebo originální seznam? [S/O]");
+                    System.out.println("Chceš seřazený nebo originální seznam? [S,s/O,o]");
                     choose = sc.next();
                     if (setChoose(choose).equalsIgnoreCase("S")) {
                         System.out.println();
-                        System.out.format(loc, abc.printCarsSorted());
+                        System.out.println(abc.printCarsSorted());
                     } else if (setChoose(choose).equalsIgnoreCase("O")) {
                         System.out.println();
                         System.out.println(abc.printCars());
-                    } else {
-                        throw new ExceptionInputOutput("Zadejte požadovaná data!");
                     }
                 } else if (setChoose(choose).equalsIgnoreCase("SP")) {
                     System.out.println();
@@ -65,13 +63,14 @@ public class AutobazarApp {
                         throw new ExceptionNoMoreSale("Nemáš co prodávat! :(");
                     } else {
                         while (contSale) {
-                            System.out.println("Přeješ si pokračovat? [A,a]");
-                            choose = sc.next();
-                            if (setChoose(choose).equalsIgnoreCase("A")) {
-                                Auta car = new Auta(abc.getRandomCar());
-                                System.out.println(abc.printSellersSorted());
-                                System.out.println("Vyber prodejce:");
-                                try {
+                            try {
+                                System.out.println("Přeješ si pokračovat? [A,a]");
+                                choose = sc.next();
+                                if (setChoose(choose).equalsIgnoreCase("A")) {
+                                    Auta car = new Auta(abc.getRandomCar());
+                                    System.out.println(abc.printSellersSorted());
+                                    System.out.println("Vyber prodejce:");
+
                                     int choiceSeller = sc.nextInt();
                                     Prodejci seller = new Prodejci(abc.getSpecificSeller(choiceSeller));
 
@@ -80,29 +79,26 @@ public class AutobazarApp {
                                             "\nBylo prodáno auto: \n%s\ncelková provize autobazaru činní: %.2f.\n\n",
                                             car.toString(),
                                             abc.getMoney());
-                                    System.out.format("%s\n",abc.saleTime());
-                                } catch (ExceptionInputMissmatch e) {
-                                    throw new ExceptionInputMissmatch("Zajdete správného prodejce!");
+                                } else {
+                                    contSale = false;
                                 }
-                            } else {
-                                contSale = false;
+                            } catch (ExceptionInputMissmatch e) {
+                                throw new ExceptionInputMissmatch("Zajdete správného prodejce!");
                             }
+
                         }
                     }
                 } else if (setChoose(choose).equalsIgnoreCase("K")) {
                     System.out.println("Dobře, vytvářím .pdf a .dat dokumenty");
-                    //abc.saveToFile();
+                    // abc.saveToFile();
                     abc.saveToBinary();
                     System.out.println(abc.readBinaryResults());
                     System.out.println("KONEC");
                     cont = false;
-                } else {
-                    throw new ExceptionInputOutput("Zadejte požadovaná data!");
                 }
             } catch (ExceptionInputOutput e) {
                 throw new ExceptionInputOutput("Zadejte správný výběr!");
             }
-
         }
     }
 
@@ -113,23 +109,25 @@ public class AutobazarApp {
      * @return String
      */
     public static String setChoose(String choose) {
+        String chosen;
         if (choose.equalsIgnoreCase("SA")) {
-            return String.valueOf(AutobazarEnum.SA);
+            chosen = String.valueOf(AutobazarEnum.SA);
         } else if (choose.equalsIgnoreCase("SP")) {
-            return String.valueOf(AutobazarEnum.SP);
+            chosen = String.valueOf(AutobazarEnum.SP);
         } else if (choose.equalsIgnoreCase("P")) {
-            return String.valueOf(AutobazarEnum.P);
+            chosen = String.valueOf(AutobazarEnum.P);
         } else if (choose.equalsIgnoreCase("K")) {
-            return String.valueOf(AutobazarEnum.K);
+            chosen = String.valueOf(AutobazarEnum.K);
         } else if (choose.equalsIgnoreCase("S")) {
-            return String.valueOf(AutobazarEnum.S);
+            chosen = String.valueOf(AutobazarEnum.S);
         } else if (choose.equalsIgnoreCase("O")) {
-            return String.valueOf(AutobazarEnum.O);
+            chosen = String.valueOf(AutobazarEnum.O);
         } else if (choose.equalsIgnoreCase("A")) {
-            return String.valueOf(AutobazarEnum.A);
+            chosen = String.valueOf(AutobazarEnum.A);
         } else {
-            return String.valueOf(AutobazarEnum.N);
+            chosen = String.valueOf(AutobazarEnum.N);
         }
+        return chosen;
     }
 
     /**
@@ -138,6 +136,13 @@ public class AutobazarApp {
     public static void displaySellersHead() {
         System.out.format("\n%-18s %-15s %-10s %-10s\n", "Jméno", "Příjmení", "Věk", "Zkušenosti");
         System.out.println("--------------------------------------------------------");
+    }
+
+    public static String displaySellersHeadForExport() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("\n%-15s %-15s %-10s %-10s\n", "Jméno", "Příjmení", "Věk", "Zkušenosti"));
+        sb.append("-----------------------------------------------------\n");
+        return sb.toString();
     }
 
     /**
