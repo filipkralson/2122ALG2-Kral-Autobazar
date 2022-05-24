@@ -56,7 +56,7 @@ Výstupní soubory budou 2. Jeden soubor bude ve formátu .pdf s jasně danou uk
 
 ### Class diagram
 
- ![Autobazar - Class diagram](/stuff/class_diagra.png)
+ ![Autobazar - Class diagram](/stuff/Untitled Diagram.png)
 
 ## Testování
 
