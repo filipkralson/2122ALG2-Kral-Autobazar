@@ -4,10 +4,9 @@
 
 ## Zadání
 
-Majitel prestižního autobazaru v Liberci tě požádal, aby si mu pomohl se simulací prodejů v jeho autobazaru. Musíš autobazar vytvořit a pojmenovat. Budeš pracovat se souborem aut, který je právě v autobazaru k dispozici a se souborem prodejců, kteří pro majitele pracují.
-Prodej bude vypadat následnovně:
+Majitel prestižního autobazaru v Liberci tě požádal, aby si mu pomohl se simulací prodejů v jeho autobazaru. Musíš autobazar vytvořit a pojmenovat. Budeš pracovat se souborem aut, který je právě v autobazaru k dispozici a se souborem prodejců, kteří pro majitele pracují. Když v jakýkoliv den dojdou auta ze stavu, týden tímto končí.
 
-Pracovní doba je od 9:00 do 17:00. Když v jakýkoliv den dojdou auta ze stavu, týden tímto končí.
+Prodej bude vypadat následovně:
 
 UI bude vypadat následovně: 
   1. ukázat seznam aut
