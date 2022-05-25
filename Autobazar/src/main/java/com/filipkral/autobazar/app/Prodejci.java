@@ -126,13 +126,12 @@ public class Prodejci {
      * @return this.money
      */
     public double commission(double moneyToAdd) {
-
-        return this.money = moneyToAdd + this.money;
+        return this.money = this.money + moneyToAdd;
     }
 
     @Override
     public String toString() {
-        return String.format("%-15s %-15s %-10d %-15d %-10.2f\n", getName(), getSurname(), getAge(), getExp(),getMoney());
+        return String.format("%-15s %-15s %-10d %-15d %-10.2f\n", getName(), getSurname(), getAge(), getExp(), getMoney());
     }
 
     /*

@@ -1,6 +1,4 @@
 package com.filipkral.autobazar.ui;
-
-import java.util.Locale;
 import java.util.Scanner;
 
 import com.itextpdf.io.exceptions.IOException;
@@ -23,7 +21,6 @@ import com.filipkral.autobazar.app.Prodejci;
 public class AutobazarApp {
 
     public static Scanner sc = new Scanner(System.in);
-    public static final Locale loc = new Locale("CS", "cz");
 
     public static void main(String[] args)
             throws ExceptionInputOutput, ExceptionNoMoreSale, InterruptedException, IOException, java.io.IOException {
@@ -60,33 +57,32 @@ public class AutobazarApp {
                     if (abc.getCarsCount() == 0) {
                         throw new ExceptionNoMoreSale("Nemáš co prodávat! :(");
                     } else {
-                        while (contSale) {
-                            try {
+                        while (contSale) {    
                                 System.out.println("Přeješ si pokračovat? [A,a]");
                                 choose = sc.next();
                                 if (setChoose(choose).equalsIgnoreCase("A")) {
                                     Auta car = new Auta(abc.getRandomCar());
                                     System.out.println(abc.printSellersSorted());
                                     System.out.println("Vyber prodejce:");
+                                    try {
+                                        int choiceSeller = sc.nextInt();
+                                        Prodejci seller = new Prodejci(abc.getSpecificSeller(choiceSeller));
 
-                                    int choiceSeller = sc.nextInt();
-                                    Prodejci seller = new Prodejci(abc.getSpecificSeller(choiceSeller));
+                                        abc.sellTime(seller, car);
+                                        System.out.format(
+                                                "\nBylo prodáno auto: \n%s\ncelková provize autobazaru činní: %.2f.\n",
+                                                car.toString(),
+                                                abc.getMoney());
 
-                                    abc.sellTime(seller, car);
-                                    System.out.format(
-                                            "\nBylo prodáno auto: \n%s\ncelková provize autobazaru činní: %.2f.\n",
-                                            car.toString(),
-                                            abc.getMoney());
-                                    
-                                    System.out.format("%s\n\n",abc.saleTime());
+                                        System.out.format("%s\n\n", abc.saleTime());
+                                    } catch (ExceptionInputMissmatch e) {
+                                       throw new ExceptionInputMissmatch("Zadejte pouze čísla v rozmezí prodejců!");
+                                    }
+
                                 } else {
                                     System.out.format("\n");
                                     contSale = false;
                                 }
-                            } catch (ExceptionInputMissmatch e) {
-                                throw new ExceptionInputMissmatch("Zajdete správného prodejce!");
-                            }
-
                         }
                     }
                 } else if (setChoose(choose).equalsIgnoreCase("K")) {
@@ -136,7 +132,7 @@ public class AutobazarApp {
     }
 
     /**
-     * Method for printing header for sellers 
+     * Method for printing header for sellers
      * 
      * @return String s
      */
