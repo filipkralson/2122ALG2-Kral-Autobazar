@@ -17,6 +17,12 @@ Program bude pracovat následovně:
       * Připsání peněž na účet prodejce a autobazaru.
   5. ukončit 
 
+Srážení procent na základě zkušeností bude vypadat následovně: 
+
+- | 0. až 3. úroveň -> 15 - 11% z částky auta
+- | 4. až 7. úroveň -> 10 - 6% z částky auta
+- | 8. až 10. úroveň -> 5 - 0% z čátky auta
+
 Bude možnost vybírat ze souborů .csv, ve kterém budou údaje o autech (značka, model, objem motoru, kW, kilometry, rok výroby, palivo, barva, cena) a o prodejcích(jméno, příjmení, věk, zkušenosti).
 
 Po ukončení týdne se do terminálu a do souboru vypíše týdenní výsledková listina, na které bude částka za všechna prodaná auta, seznam všech prodejců s jejich atributy a provizemi. Na konci bude celkový výsledek hospodaření celého podniku. Program se ukončí. 
@@ -55,6 +61,23 @@ Výstupní soubory budou 2. Jeden soubor bude ve formátu .pdf s jasně danou uk
 
 ## Testování
 
+TODO
+
 ## Popis fungování externí knihovny
 
-itextpdf
+### iText7
+
+Pro práci jsem zvolil knihovnu **iText pdf verze 7**. Pro správnou funkčnost bylo potřeba zmigrovat můj stávající projekt do Mavenu. Byla potřeba zapsat potřebné dependencies do souboru pom.xml, které jsem našel na oficiálních stránkách knihovny. Následně již vše funguje tak, jak má. Knihovna má několik tříd s několika objekty např. tyto: (jsou to ty, které jsem konkrétně použil)
+
+- PdfDocument - vytvoření samotného pdf dokumentu
+- PdfWriter - pro zapisování do dokumentu
+- Document - hlavní část skladby pdf dokumentu, nastavování rozměrů stránky, přidávání odstavců atd.
+- FontProgram - vytváření fontů
+- PdfFont - samotné vytvoření a nastavení fontů pro další použití v kódu
+- Text - samotný text, který chcete vložit, nastavuje se v něm i např. font, barva, bold, italic
+- Paragraph - část textu, může jít o text, obrázek, tabulku, přidává se do objetu Document přes metodu .add()
+
+Pro lepší přehlednost a vysvětlení postupu instalace a použití přikládám URL odkazy:
+
+- https://kb.itextpdf.com/home/it7kb/installation-guidelines/installing-itext-7-for-java -> instalace
+- https://kb.itextpdf.com/home/it7kb/examples/itext-7-jump-start-tutorial-chapter-1 -> návody pro použití (více chapterů)
