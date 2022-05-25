@@ -23,7 +23,9 @@ Srážení procent na základě zkušeností bude vypadat následovně:
 - | 4. až 7. úroveň -> 10 - 6% z částky auta
 - | 8. až 10. úroveň -> 5 - 0% z čátky auta
 
-Bude možnost vybírat ze souborů .csv, ve kterém budou údaje o autech (značka, model, objem motoru, kW, kilometry, rok výroby, palivo, barva, cena) a o prodejcích(jméno, příjmení, věk, zkušenosti).
+Bude možnost vybírat ze souborů .csv, ve kterém budou údaje o autech (značka, model, kilometry, rok výroby, palivo, barva, VIN, cena) a o prodejcích(jméno, příjmení, věk, zkušenosti).
+
+Soubor .csv s auty je veřejně dostupný dataset ze stránky: https://www.kaggle.com/datasets/doaaalsenani/usa-cers-dataset
 
 Po ukončení týdne se do terminálu a do souboru vypíše týdenní výsledková listina, na které bude částka za všechna prodaná auta, seznam všech prodejců s jejich atributy a provizemi. Na konci bude celkový výsledek hospodaření celého podniku. Program se ukončí. 
 
