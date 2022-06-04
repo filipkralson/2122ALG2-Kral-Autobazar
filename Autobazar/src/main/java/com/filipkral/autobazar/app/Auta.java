@@ -9,36 +9,39 @@ public class Auta {
 
     private String brand;
     private String model;
-    private double engineCapacity;
-    private int kilowatts;
-    private int kilometers;
     private int yearOfManufacture;
-    private String fuel;
     private String color;
     private int price;
+    private double milage;
+    private String vin;
+    private String state;
+    private String country;
 
-    /**
-     * Contructor
-     * 
-     * @param brand
-     * @param model
-     * @param engineCapacity
-     * @param kilowatts
-     * @param kilometers
-     * @param yearOfManufacture
-     * @param fuel
-     * @param color
-     * @param price
-     */
-    public Auta(String brand, String model, double engineCapacity, int kilowatts, int kilometers, int yearOfManufacture,
-            String fuel, String color, int price) {
+    public String getCountry() {
+        return country;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public double getMilage() {
+        return milage;
+    }
+
+    public Auta(String brand, String model, String vin, double milage, int yearOfManufacture,
+            String color, int price, String state, String country) {
         this.brand = brand;
         this.model = model;
-        this.engineCapacity = engineCapacity;
-        this.kilowatts = kilowatts;
-        this.kilometers = kilometers;
+        this.vin = vin;
+        this.milage = milage;
         this.yearOfManufacture = yearOfManufacture;
-        this.fuel = fuel;
+        this.state = state;
+        this.country = country;
         this.color = color;
         this.price = price;
     }
@@ -51,32 +54,16 @@ public class Auta {
     public Auta(Auta c) {
         this.brand = c.brand;
         this.model = c.model;
-        this.engineCapacity = c.engineCapacity;
-        this.kilowatts = c.kilowatts;
-        this.kilometers = c.kilometers;
         this.yearOfManufacture = c.yearOfManufacture;
-        this.fuel = c.fuel;
+        this.vin = c.vin;
+        this.milage = c.milage;
+        this.state = c.state;
+        this.country = c.country;
         this.color = c.color;
         this.price = c.price;
     }
 
-    /**
-     * Method for getting fuel of a each car
-     * 
-     * @return fuel
-     */
-    public String getFuel() {
-        return fuel;
-    }
 
-    /**
-     * Method for getting kilowatts of a each car
-     * 
-     * @return kilowatts
-     */
-    public int getKilowatts() {
-        return kilowatts;
-    }
 
     /**
      * Method for getting price of a each car
@@ -106,24 +93,6 @@ public class Auta {
     }
 
     /**
-     * Method for getting kilometers of a each car
-     * 
-     * @return kilometers
-     */
-    public int getKilometers() {
-        return kilometers;
-    }
-
-    /**
-     * Method for getting engineCapacity of a each car
-     * 
-     * @return engineCapacity
-     */    
-    public double getEngineCapacity() {
-        return engineCapacity;
-    }
-
-    /**
      * Method for getting model of a each car
      * 
      * @return model
@@ -143,8 +112,9 @@ public class Auta {
 
     @Override
     public String toString() {
-        return String.format("%-15s %-15s %-7.1f %-7d %-15d %-15d %-15s %-20s %-15d\n", getBrand(), getModel(), getEngineCapacity(),
-                getKilowatts(), getKilometers(), getYearOfManufacture(), getFuel(), getColor(), getPrice());
+        return String.format("%-15s %-20s %-11.2f %-7d %-20s %-20s %-20s %-20s %-15d\n", getBrand(), getModel(),
+                getMilage(),
+                getYearOfManufacture(), getVin(), getState(), getCountry(), getColor(), getPrice());
     }
 
 }

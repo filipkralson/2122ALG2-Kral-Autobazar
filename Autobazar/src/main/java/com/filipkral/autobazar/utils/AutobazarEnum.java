@@ -6,5 +6,5 @@ package com.filipkral.autobazar.utils;
  * @author filip.kral
  */
 public enum AutobazarEnum {
-    SA,SP,P,K,A,N;
+    SA,SP,P,K,A,N,S,O;
 }

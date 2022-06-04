@@ -16,7 +16,7 @@ public interface AutobazarInterface {
 
     public String printCars() throws ExceptionFileNotFound, ExceptionInputOutput;
     public String printCarsSorted() throws ExceptionFileNotFound, ExceptionInputOutput;
-    public String printSellersSorted() throws ExceptionFileNotFound, ExceptionInputOutput ;
+    public String printSellersSorted() throws ExceptionFileNotFound, ExceptionInputOutput;
     public void sellTime(Prodejci seller, Auta car) throws ExceptionNoMoreSale, ExceptionFileNotFound, ExceptionInputOutput;
     public Prodejci getSpecificSeller(int specificSellerNumber);
     public String toString();
@@ -29,6 +29,6 @@ public interface AutobazarInterface {
     public int getCarsCount();
     public void loadSellsers() throws ExceptionFileNotFound, ExceptionInputOutput, IOException;
     public String saleTime();
-
+    public int getSellersCount();
     
 }
