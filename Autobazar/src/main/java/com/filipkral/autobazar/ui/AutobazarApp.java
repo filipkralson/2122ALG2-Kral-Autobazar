@@ -82,8 +82,10 @@ public class AutobazarApp {
                                     Prodejci seller = abc.getSpecificSeller(choiceSellerInt);
 
                                     abc.sellTime(seller, car);
+                                    System.out.println("Bylo prodáno auto:\n");
+                                    displayCarsHead();
                                     System.out.format(
-                                            "\nBylo prodáno auto: \n%s\ncelková provize autobazaru činní: %.2f.\n",
+                                            "--- %s\ncelková provize autobazaru činí: %.2f.\n",
                                             car,
                                             abc.getMoney());
 
