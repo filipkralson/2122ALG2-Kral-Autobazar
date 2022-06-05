@@ -65,16 +65,16 @@ Výstupní soubory budou 2. Jeden soubor bude ve formátu .pdf s jasně danou uk
 
 | **Číslo testu** | **Typ testu, popis**                                            | **Očekávaný výsledek / Skutečný výsledek** | **Prošel (ano/ne)** |
 |-----------------|-----------------------------------------------------------------|--------------------------------------------|---------------------|
-| 01              | Nevalidní vstup; špatná cesta k jakémukoliv vstupnímu souboru   | --exception(screen)                        | Ano                 |
-| 02              | Nevalidní vstup; nevalidní výpis z binárního souboru            | --exception(screen)                        | Ano                 |
-| 03              | Nevalidní vstup; špatně zadaná hodnota v hlavním výběrovém menu | --loop(screen)                             | Ano                 |
-| 04              | Nevalidní vstup; špatně zadaná hodnota v podmenu "Prodej"       | --loop(screen)                 | Ano                 |
-| 05              | Nevalidní vstup; zadaný prodejce není v seznamu                 | --loop(screen)                  | Ano                 |
-| 06              | Běžný stav; výběr požadavků v hlavním menu                      | --loop(screen)                  | Ano                 |
-| 07              | Běžný stav; výběr požadavků v podmenu "Prodej"                  | --loop(screen)                  | Ano                 |
-| 08              | Běžný stav; výběr pro cestu k souboru                           | --(screen)                        | Ano                 |
-| 09              | Běžný stav; .pdf soubor                                         | --(screen)                          | Ano                 |
-| 10              | Běžný stav; print binárního souboru do konzole                  | --(screen)                    | Ano                 |
+| 01              | Nevalidní vstup; špatná cesta k jakémukoliv vstupnímu souboru   | ![ExceptionFileNotFound](/stuff/_screens/ExceptionFileNotFound.png)| Ano  |
+| 02              | Nevalidní vstup; nevalidní výpis z binárního souboru            | ![EOFException](/stuff/_screens/EOFException.png)   | Ano                 |
+| 03              | Nevalidní vstup; špatně zadaná hodnota v hlavním výběrovém menu | ![Main](/stuff/_screens/Main.png)                   | Ano                 |
+| 04              | Nevalidní vstup; špatně zadaná hodnota v podmenu "Prodej"       | ![Prodej](/stuff/_screens/Prodej.png)               | Ano                 |
+| 05              | Nevalidní vstup; zadaný prodejce není v seznamu                 | ![Prodejci](/stuff/_screens/Prodejci.png)           | Ano                 |
+| 06              | Běžný stav; výběr požadavků v hlavním menu                      | ![Main normal](/stuff/_screens/Main_norm.png)       | Ano                 |
+| 07              | Běžný stav; výběr požadavků v podmenu "Prodej"                  | ![Prodej normal](/stuff/_screens/Prodej_norm.png)   | Ano                 |
+| 08              | Běžný stav; výběr pro cestu k souboru                           | ![PDF window](/stuff/_screens/Pdf_window.png)       | Ano                 |
+| 09              | Běžný stav; .pdf soubor                                         | ![PDF results](/stuff/_screens/Pdf_res.png)         | Ano                 |
+| 10              | Běžný stav; print binárního souboru do konzole                  | ![Binary results](/stuff/_screens/Binary_res.png)   | Ano                 |
 
 ## Popis fungování externí knihovny
 
