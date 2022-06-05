@@ -44,20 +44,7 @@ public class AutobazarApp {
             choose = sc.next();
 
             if (setChoose(choose).equalsIgnoreCase("SA")) {
-
-                while (true) {
-                    System.out.println("Cheš sezařený nebo origální seznam? [S,s/O,o]");
-                    choose = sc.next();
-
-                    if (setChoose(choose).equalsIgnoreCase("S")) {
-                        System.out.println(abc.printCarsSorted());
-                        break;
-                    } else if (setChoose(choose).equalsIgnoreCase("O")) {
-                        System.out.println(abc.printCars());
-                        break;
-                    }
-
-                }
+                System.out.println(abc.printCarsSorted());
             } else if (setChoose(choose).equalsIgnoreCase("SP")) {
                 System.out.println();
                 System.out.println(abc.printSellersSorted());
@@ -71,7 +58,7 @@ public class AutobazarApp {
                         choose = sc.next();
 
                         if (setChoose(choose).equalsIgnoreCase("A")) {
-                            Auta car = new Auta(abc.getRandomCar());
+                            Auta car = abc.getRandomCar();
                             System.out.println(abc.printSellersSorted());
                             System.out.println("Vyber prodejce:");
                             String choiceSeller;
@@ -92,7 +79,7 @@ public class AutobazarApp {
                                     System.out.println("Vracím tě o krok zpět!\n");
                                     break;
                                 } else {
-                                    Prodejci seller = new Prodejci(abc.getSpecificSeller(choiceSellerInt));
+                                    Prodejci seller = abc.getSpecificSeller(choiceSellerInt);
 
                                     abc.sellTime(seller, car);
                                     System.out.format(

@@ -80,7 +80,7 @@ public class Prodejci {
      * @return this.money
      */
     public double getMoney() {
-        return this.money;
+        return money;
     }
 
     /**
@@ -126,7 +126,8 @@ public class Prodejci {
      * @return this.money
      */
     public double commission(double moneyToAdd) {
-        return this.money = this.money + moneyToAdd;
+        money += moneyToAdd;
+        return money;
     }
 
     @Override

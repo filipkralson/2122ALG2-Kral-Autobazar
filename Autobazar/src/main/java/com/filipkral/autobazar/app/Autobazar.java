@@ -15,16 +15,13 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
-
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 import com.filipkral.autobazar.utils.AutobazarInterface;
 import com.filipkral.autobazar.utils.ExceptionFileNotFound;
 import com.filipkral.autobazar.utils.ExceptionInputOutput;
@@ -48,9 +45,9 @@ import com.itextpdf.layout.element.Text;
 public class Autobazar implements AutobazarInterface {
 
     public static final Collator col = Collator.getInstance(new Locale("cs", "CZ"));
-    public static final String IMPACT_FONT = "../Autobazar/src/main/java/com/filipkral/autobazar/fonts/impact.ttf";
-    public static final String LIBERATIONSANS_REGULAR = "../Autobazar/src/main/java/com/filipkral/autobazar/fonts/LiberationSans-Regular.ttf";
-    public static final String LIBERATIONSANS_BOLD = "../Autobazar/src/main/java/com/filipkral/autobazar/fonts/LiberationSans-Bold.ttf";
+    public static final String IMPACT_FONT = "./Autobazar/src/main/java/com/filipkral/autobazar/fonts/impact.ttf";
+    public static final String LIBERATIONSANS_REGULAR = "./Autobazar/src/main/java/com/filipkral/autobazar/fonts/LiberationSans-Regular.ttf";
+    public static final String LIBERATIONSANS_BOLD = "./Autobazar/src/main/java/com/filipkral/autobazar/fonts/LiberationSans-Bold.ttf";
     public static final Comparator<Auta> COMP_BY_BRAND = (Auta c1, Auta c2) -> {
         int value = col.compare(c1.getBrand(), c2.getBrand());
         if (value == 0) {
@@ -66,10 +63,10 @@ public class Autobazar implements AutobazarInterface {
     };
 
     private static final File fileSellers = new File(
-            "../Autobazar/src/main/java/com/filipkral/autobazar/sellers.csv");
-    private static final File fileCarsUSA = new File("../Autobazar/src/main/java/com/filipkral/autobazar/carsUSA.csv");
+            "./Autobazar/src/main/java/com/filipkral/autobazar/sellers.csv");
+    private static final File fileCarsUSA = new File("./Autobazar/src/main/java/com/filipkral/autobazar/carsUSA.csv");
     private static final File fileResultsBinary = new File(
-            "../Autobazar/src/main/java/com/filipkral/autobazar/data/results.dat");
+            "./Autobazar/src/main/java/com/filipkral/autobazar/data/results.dat");
     private static final Locale loc = new Locale("CS", "cz");
     private static File fileToPdf;
 
@@ -78,7 +75,6 @@ public class Autobazar implements AutobazarInterface {
     private String[] split;
     private List<Prodejci> sellers;
     private List<Auta> cars;
-    private List<Auta> carsSorted;
     private double money;
     private int soldCars;
 
@@ -90,7 +86,6 @@ public class Autobazar implements AutobazarInterface {
     public Autobazar(String name) {
         this.name = name;
         cars = new ArrayList<>();
-        carsSorted = new ArrayList<>();
         sellers = new ArrayList<>();
 
     }
@@ -185,9 +180,10 @@ public class Autobazar implements AutobazarInterface {
      * @param value
      * @return double
      */
-    public double bankAccount(double value) {
+    public double bankAccount(double moneyToAdd) {
         try {
-            return this.money = value + this.money;
+            money += moneyToAdd;
+            return money;
         } catch (ExceptionInputOutput e) {
             return 0;
         }
@@ -255,6 +251,7 @@ public class Autobazar implements AutobazarInterface {
 
     /**
      * Method for loading cars from US dataset
+     * 
      * @throws com.filipkral.autobazar.utils.ExceptionFileNotFound
      */
     @Override
@@ -282,7 +279,6 @@ public class Autobazar implements AutobazarInterface {
                 country = split[11];
 
                 cars.add(new Auta(brand, model, vin, dblMilage, intYear, color, intPrice, state, country));
-                carsSorted.add(new Auta(brand, model, vin, dblMilage, intYear, color, intPrice, state, country));
             }
             reader.close();
         } catch (FileNotFoundException e) {
@@ -393,14 +389,7 @@ public class Autobazar implements AutobazarInterface {
     @Override
     public void saveToBinary() throws FileNotFoundException, IOException {
         try (DataOutputStream out = new DataOutputStream(new FileOutputStream(fileResultsBinary))) {
-            for (Prodejci seller : getSellersSortedByExp()) {
-                out.writeUTF(seller.getName());
-                out.writeUTF(seller.getSurname());
-                out.writeInt(seller.getAge());
-                out.writeInt(seller.getExp());
-                out.flush();
-            }
-
+            out.writeUTF(printSellersSorted());
             out.writeUTF("Bylo prodáno: ");
             out.writeInt(getSoldCars());
             out.writeUTF(" ks");
@@ -425,16 +414,7 @@ public class Autobazar implements AutobazarInterface {
         StringBuilder sb = new StringBuilder();
         try (DataInputStream in = new DataInputStream(new FileInputStream(fileResultsBinary))) {
             sb.append("\n");
-            for (Prodejci seller : getSellersSortedByExp()) {
-                String name = in.readUTF();
-                String surname = in.readUTF();
-                int age = in.readInt();
-                int exp = in.readInt();
-
-                seller = new Prodejci(name, surname, age, exp);
-                sb.append(seller);
-
-            }
+            sb.append(in.readUTF());
             sb.append("\n");
 
             sb.append(in.readUTF()).append(in.readInt()).append(in.readUTF()).append("\n").append(in.readUTF())
@@ -453,7 +433,6 @@ public class Autobazar implements AutobazarInterface {
      * @throws ExceptionInputOutput
      * @throws ExceptionFileNotFound
      */
-    @Override
     public String printCars() throws ExceptionFileNotFound, ExceptionInputOutput {
         StringBuilder sb = new StringBuilder();
         int count = 0;
@@ -487,7 +466,7 @@ public class Autobazar implements AutobazarInterface {
             } else {
                 sb.append(count += 1).append(". ").append(String.format(loc, "%s", car));
             }
-
+            
         }
 
         return sb.toString();
@@ -504,31 +483,31 @@ public class Autobazar implements AutobazarInterface {
      * Method for sorting list of cars with specific comparator
      */
     public void carsSortByBrand() {
-        Collections.sort(carsSorted, COMP_BY_BRAND);
+        Collections.sort(cars, COMP_BY_BRAND);
     }
 
     /**
-     * Method for deep copy of cars list
+     * Method for copy of cars list
      * 
      * @return ArrayList copy
      */
     public ArrayList<Auta> getCars() {
         ArrayList<Auta> copy = new ArrayList<>();
-        for (Auta car : carsSorted) {
-            copy.add(new Auta(car));
+        for (Auta car : cars) {
+            copy.add(car);
         }
         return copy;
     }
 
     /**
-     * Method for deep copy of sellers list
+     * Method for copy of sellers list
      * 
      * @return ArrayList copy
      */
     public ArrayList<Prodejci> getSellers() {
         ArrayList<Prodejci> copy = new ArrayList<>();
         for (Prodejci seller : sellers) {
-            copy.add(new Prodejci(seller));
+            copy.add(seller);
         }
         return copy;
 
@@ -564,7 +543,7 @@ public class Autobazar implements AutobazarInterface {
      */
     public ArrayList<Auta> getCarsSortedByBrand() {
         carsSortByBrand();
-        return getCars();
+        return new ArrayList<Auta>(cars);
     }
 
     /**
@@ -574,11 +553,8 @@ public class Autobazar implements AutobazarInterface {
      */
     @Override
     public Auta getRandomCar() {
-
-        random = new Random();
-
-        return getCarsSortedByBrand().get(random.nextInt(getCarsSortedByBrand().size()));
-
+        carsSortByBrand();
+        return cars.get(new Random().nextInt(cars.size()));
     }
 
     /**
@@ -633,6 +609,10 @@ public class Autobazar implements AutobazarInterface {
         return money * 23;
     }
 
+    public double commission(Prodejci seller, double money) {
+        return seller.commission(money);
+    }
+
     /**
      * Method for making a sale
      * 
@@ -643,29 +623,27 @@ public class Autobazar implements AutobazarInterface {
     @Override
     public void sellTime(Prodejci seller, Auta car) {
         double priceModif;
-        double sellerCommision;
-        // remove car nefunkční
-        // sellersmoney nefunkční
+        double sellerCommission;
 
         if (seller.getExp() <= 10 && seller.getExp() >= 8) {
             priceModif = usdToCzk(car.getPrice()) * (pickRandomPercent(5, 0) / 100);
-            sellerCommision = seller.commission(priceModif * 0.1);
-            seller.commission(sellerCommision);
-            bankAccount(priceModif - sellerCommision);
+            sellerCommission = seller.commission(priceModif * 0.01);
+            seller.commission(sellerCommission);
+            bankAccount((priceModif - sellerCommission));
             setSoldCars();
             cars.remove(car);
         } else if (seller.getExp() <= 7 && seller.getExp() >= 4) {
             priceModif = usdToCzk(car.getPrice()) * (pickRandomPercent(10, 6) / 100);
-            sellerCommision = seller.commission(priceModif * 0.1);
-            seller.commission(sellerCommision);
-            bankAccount(priceModif - sellerCommision);
+            sellerCommission = seller.commission(priceModif * 0.01);
+            seller.commission(sellerCommission);
+            bankAccount((priceModif - sellerCommission));
             setSoldCars();
             cars.remove(car);
         } else {
             priceModif = usdToCzk(car.getPrice()) * (pickRandomPercent(15, 11) / 100);
-            sellerCommision = seller.commission(priceModif * 0.1);
-            seller.commission(sellerCommision);
-            bankAccount(priceModif - sellerCommision);
+            sellerCommission = seller.commission(priceModif * 0.01);
+            seller.commission(sellerCommission);
+            bankAccount((priceModif - sellerCommission));
             setSoldCars();
             cars.remove(car);
         }
@@ -681,7 +659,8 @@ public class Autobazar implements AutobazarInterface {
         return String.format("Autobazar %s má %d aut a %d prodejců.\n", getName(), getCarsCount(), getSellersCount());
     }
 
-    public static void main(String[] args) throws ExceptionInputOutput,
+   /* 
+   public static void main(String[] args) throws ExceptionInputOutput,
             IOException {
         Autobazar abc = new Autobazar("ABC");
         abc.loadCars();
@@ -695,4 +674,5 @@ public class Autobazar implements AutobazarInterface {
         System.out.println("Hi");
         System.out.println(abc);
     }
+    */ 
 }

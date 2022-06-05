@@ -14,7 +14,6 @@ import com.filipkral.autobazar.app.Prodejci;
  */
 public interface AutobazarInterface {
 
-    public String printCars() throws ExceptionFileNotFound, ExceptionInputOutput;
     public String printCarsSorted() throws ExceptionFileNotFound, ExceptionInputOutput;
     public String printSellersSorted() throws ExceptionFileNotFound, ExceptionInputOutput;
     public void sellTime(Prodejci seller, Auta car) throws ExceptionNoMoreSale, ExceptionFileNotFound, ExceptionInputOutput;

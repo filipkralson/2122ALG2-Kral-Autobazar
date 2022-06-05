@@ -112,7 +112,7 @@ public class Auta {
 
     @Override
     public String toString() {
-        return String.format("%-15s %-20s %-11.2f %-7d %-20s %-20s %-20s %-20s %-15d\n", getBrand(), getModel(),
+        return String.format("%-15s %-20s %-11.2f %-7d %-20s %-20s %-20s %-20s %-5d $\n", getBrand(), getModel(),
                 getMilage(),
                 getYearOfManufacture(), getVin(), getState(), getCountry(), getColor(), getPrice());
     }
