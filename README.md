@@ -63,7 +63,18 @@ Výstupní soubory budou 2. Jeden soubor bude ve formátu .pdf s jasně danou uk
 
 ## Testování
 
-TODO
+| **Číslo testu** | **Typ testu, popis**                                            | **Očekávaný výsledek / Skutečný výsledek** | **Prošel (ano/ne)** |
+|-----------------|-----------------------------------------------------------------|--------------------------------------------|---------------------|
+| 01              | Nevalidní vstup; špatná cesta k jakémukoliv vstupnímu souboru   | --exception(screen)                        | Ano                 |
+| 02              | Nevalidní vstup; nevalidní výpis z binárního souboru            | --exception(screen)                        | Ano                 |
+| 03              | Nevalidní vstup; špatně zadaná hodnota v hlavním výběrovém menu | --loop(screen)                             | Ano                 |
+| 04              | Nevalidní vstup; špatně zadaná hodnota v podmenu "Prodej"       | --loop(screen)                 | Ano                 |
+| 05              | Nevalidní vstup; zadaný prodejce není v seznamu                 | --loop(screen)                  | Ano                 |
+| 06              | Běžný stav; výběr požadavků v hlavním menu                      | --loop(screen)                  | Ano                 |
+| 07              | Běžný stav; výběr požadavků v podmenu "Prodej"                  | --loop(screen)                  | Ano                 |
+| 08              | Běžný stav; výběr pro cestu k souboru                           | --(screen)                        | Ano                 |
+| 09              | Běžný stav; .pdf soubor                                         | --(screen)                          | Ano                 |
+| 10              | Běžný stav; print binárního souboru do konzole                  | --(screen)                    | Ano                 |
 
 ## Popis fungování externí knihovny
 
