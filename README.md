@@ -44,7 +44,7 @@ Návrh menu s metodami
       * vyprintování seřazeného seznamu prodejců do konzole
       * zvolení toho prodejce, který bude prodávat
       * náhodný výběr auta, který simuluje pozici zákazníka; na základně zkušeností prodejce se auto prodá za cenu X
-      * vyprintování prodaného auta se všemi atributy do konzole, vypsání za jakou částku se auto prodalo a vypsání aktuálního času prodeje
+      * vyprintování prodaného auta se všemi atributy do konzole, vypsání celkové provize autobazaru a vypsání aktuálního času prodeje
    * pro záporný výběr
       * zpět na začátek hlavního výběru  
 7. Konec
@@ -63,12 +63,14 @@ Výstupní soubory budou 2. Jeden soubor bude ve formátu .pdf s volitelnou ukl�
 -  výpis, jaká byla celková provize za prodaná auta
 -  výpis, jaká byla celková provize u autobazaru (celkově prodaná auta - celkové provize prodejců)
 
-Ve stejném čase se uloží i binární soubor .bin s jasně danou ukládací cestou do ./Autobazar/src/data/results.dat, do kterého se uloží stejná data jako do .pdf a bude z něj následně vypisováno přes metodu do konzole. Do binárního soubrou se budou ukládat následující data v tomto pořadí:
+Ve stejném čase se uloží i binární soubor .bin s jasně danou ukládací cestou do ./Autobazar/src/data/results.dat, do kterého se uloží podobná data jako do .pdf a bude z něj následně vypisováno přes metodu do konzole. Do binárního soubrou se budou ukládat následující data v tomto pořadí:
 
 -  cyklený zápis atributů u všech prodejců(jméno, příjmení, věk, zkušenosti, peníze)
 -  zápis, kolik aut se prodalo
 -  zápis, jaká byla celková provize za prodaná auta
--  zápis, jaká byla celková provize u prodejcůTODO
+-  zápis, jaká byla celková provize u prodejců
+
+Výpis do konzole z binárního souboru bude vizuálně vypadat stejně jako výpis dat do .pdf souboru.
 
 ### Class diagram
 
