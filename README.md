@@ -43,19 +43,19 @@ Návrh menu s metodami
    * if ano
       * printSellersSorted();
       * "Vyber prodejce: "
-      * Výpis prodaného auta, vypsání jaký prodejce auto prodal, kolik má provizi z prodeje a celkovou provizi autobazaru
+      * Výpis prodaného auta, výpis aktuálního času prodeje a celkovou provizi autobazaru
    * else
       * zpět na začátek celkového výběru  
 7. Konec
-   * saveToPdf(File results);
-   * saveToBinary(File results);
-   * readBinaryResults(File results);
+   * saveToPdf();
+   * saveToBinary();
+   * readBinaryResults();
 
 ### Popis struktury vstupních a výstupních souborů
 
-Vstupní soubory jsou typu .csv a jednotlivé údaje o autech a prodejcích jsou odděleny středníkem (;). U objektů File s cestou k souborům je jasně dán název souborů a to cars.csv a sellers.csv.
+Vstupní soubory jsou typu .csv a jednotlivé údaje o autech a prodejcích jsou odděleny středníkem (;). U objektů File s cestou k souborům je jasně dán název souborů a to carsUSA.csv a sellers.csv.
 
-Výstupní soubory budou 2. Jeden soubor bude ve formátu .pdf s jasně danou ukládací cestou do ../Autobazar/src/data/results.pdf. Budou v něm data, která jsem již zmiňoval z zadání práce. Ve stejném čase se uloží i binární soubor .bin s jasně danou ukládací cestou do ../Autobazar/src/data/results.dat, do kterého se uloží stejná data jako do .pdf a bude z něj následně vypisováno přes metodu do konzole.
+Výstupní soubory budou 2. Jeden soubor bude ve formátu .pdf s volitelnou ukládací cestou. Budou v něm data, která jsem již zmiňoval z zadání práce. Ve stejném čase se uloží i binární soubor .bin s jasně danou ukládací cestou do ../Autobazar/src/data/results.dat, do kterého se uloží stejná data jako do .pdf a bude z něj následně vypisováno přes metodu do konzole.
 
 ### Class diagram
 
