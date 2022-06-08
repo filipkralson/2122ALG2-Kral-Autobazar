@@ -4,7 +4,7 @@
 
 ## Zadání
 
-Majitel prestižního autobazaru v Liberci tě požádal, aby si mu pomohl se simulací prodejů v jeho autobazaru. Musíš autobazar vytvořit a pojmenovat. Budeš pracovat se souborem aut, který je právě v autobazaru k dispozici a se souborem prodejců, kteří pro majitele pracují. Když v jakýkoliv den dojdou auta ze stavu, týden tímto končí.
+Majitel prestižního autobazaru v Liberci tě požádal, aby si mu pomohl se simulací prodejů v jeho autobazaru. Musíš autobazar vytvořit a pojmenovat. Budeš pracovat se souborem aut, který je právě v autobazaru k dispozici a se souborem prodejců, kteří pro majitele pracují. Když dojdou auta ze stavu, týden tímto automaticky končí.
 
 Program bude pracovat následovně:
 
@@ -35,27 +35,42 @@ Po ukončení týdne se do terminálu a do souboru vypíše týdenní výsledkov
 
 Návrh menu s metodami
 1. Seznam aut
-   * printCarsSorted();  
+   * vyprintování seřazeného seznamu aut do konzole
 3. Seznam prodejců
-   * printSellersSorted();
+   * vyprintování seřazeného seznamu prodejců do konzole
 5. Prodej
-   * Přeješ si pokračovat?
-   * if ano
-      * printSellersSorted();
-      * "Vyber prodejce: "
-      * Výpis prodaného auta, vypsání jaký prodejce auto prodal, kolik má provizi z prodeje a celkovou provizi autobazaru
-   * else
-      * zpět na začátek celkového výběru  
+   * cyklený výběr pro prodej
+   * pro kladný výběr
+      * vyprintování seřazeného seznamu prodejců do konzole
+      * zvolení toho prodejce, který bude prodávat
+      * náhodný výběr auta, který simuluje pozici zákazníka; na základně zkušeností prodejce se auto prodá za cenu X
+      * vyprintování prodaného auta se všemi atributy do konzole, vypsání celkové provize autobazaru a vypsání aktuálního času prodeje
+   * pro záporný výběr
+      * zpět na začátek hlavního výběru  
 7. Konec
-   * saveToPdf(File results);
-   * saveToBinary(File results);
-   * readBinaryResults(File results);
+   * uložení do .pdf
+   * uložení do binárního souboru
+   * čtení a vypsání binárního souboru do konzole
 
 ### Popis struktury vstupních a výstupních souborů
 
-Vstupní soubory jsou typu .csv a jednotlivé údaje o autech a prodejcích jsou odděleny středníkem (;). U objektů File s cestou k souborům je jasně dán název souborů a to cars.csv a sellers.csv.
+Vstupní soubory jsou typu .csv a jednotlivé údaje o autech a prodejcích jsou odděleny středníkem (;). U objektů File s cestou k souborům je jasně dán název souborů a to carsUSA.csv a sellers.csv. Soubory musí být uloženy v **src** složce projektu.
 
-Výstupní soubory budou 2. Jeden soubor bude ve formátu .pdf s jasně danou ukládací cestou do ../Autobazar/src/data/results.pdf. Budou v něm data, která jsem již zmiňoval z zadání práce. Ve stejném čase se uloží i binární soubor .bin s jasně danou ukládací cestou do ../Autobazar/src/data/results.dat, do kterého se uloží stejná data jako do .pdf a bude z něj následně vypisováno přes metodu do konzole.
+Výstupní soubory budou 2. Jeden soubor bude ve formátu .pdf s volitelnou ukládací cestou. Budou v něm následující data v tomto pořadí:
+
+-  výpis seznamu prodejců s jejich provizemi z prodejů
+-  výpis, kolik aut se prodalo
+-  výpis, jaká byla celková provize za prodaná auta
+-  výpis, jaká byla celková provize u autobazaru (celkově prodaná auta - celkové provize prodejců)
+
+Ve stejném čase se uloží i binární soubor .bin s jasně danou ukládací cestou do ./Autobazar/src/data/results.dat, do kterého se uloží podobná data jako do .pdf a bude z něj následně vypisováno přes metodu do konzole. Do binárního soubrou se budou ukládat následující data v tomto pořadí:
+
+-  cyklený zápis atributů u všech prodejců(jméno, příjmení, věk, zkušenosti, peníze)
+-  zápis, kolik aut se prodalo
+-  zápis, jaká byla celková provize za prodaná auta
+-  zápis, jaká byla celková provize u prodejců
+
+Výpis do konzole z binárního souboru bude vizuálně vypadat stejně jako výpis dat do .pdf souboru.
 
 ### Class diagram
 
@@ -65,16 +80,16 @@ Výstupní soubory budou 2. Jeden soubor bude ve formátu .pdf s jasně danou uk
 
 | **Číslo testu** | **Typ testu, popis**                                            | **Očekávaný výsledek / Skutečný výsledek** | **Prošel (ano/ne)** |
 |-----------------|-----------------------------------------------------------------|--------------------------------------------|---------------------|
-| 01              | Nevalidní vstup; špatná cesta k jakémukoliv vstupnímu souboru   | --exception(screen)                        | Ano                 |
-| 02              | Nevalidní vstup; nevalidní výpis z binárního souboru            | --exception(screen)                        | Ano                 |
-| 03              | Nevalidní vstup; špatně zadaná hodnota v hlavním výběrovém menu | --loop(screen)                             | Ano                 |
-| 04              | Nevalidní vstup; špatně zadaná hodnota v podmenu "Prodej"       | --loop(screen)                 | Ano                 |
-| 05              | Nevalidní vstup; zadaný prodejce není v seznamu                 | --loop(screen)                  | Ano                 |
-| 06              | Běžný stav; výběr požadavků v hlavním menu                      | --loop(screen)                  | Ano                 |
-| 07              | Běžný stav; výběr požadavků v podmenu "Prodej"                  | --loop(screen)                  | Ano                 |
-| 08              | Běžný stav; výběr pro cestu k souboru                           | --(screen)                        | Ano                 |
-| 09              | Běžný stav; .pdf soubor                                         | --(screen)                          | Ano                 |
-| 10              | Běžný stav; print binárního souboru do konzole                  | --(screen)                    | Ano                 |
+| 01              | Nevalidní vstup; špatná cesta k jakémukoliv vstupnímu souboru   | ![ExceptionFileNotFound](/stuff/_screens/ExceptionFileNotFound.png)| Ano  |
+| 02              | Nevalidní vstup; nevalidní výpis z binárního souboru            | ![EOFException](/stuff/_screens/EOFException.png)   | Ano                 |
+| 03              | Nevalidní vstup; špatně zadaná hodnota v hlavním výběrovém menu | ![Main](/stuff/_screens/Main.png)                   | Ano                 |
+| 04              | Nevalidní vstup; špatně zadaná hodnota v podmenu "Prodej"       | ![Prodej](/stuff/_screens/Prodej.png)               | Ano                 |
+| 05              | Nevalidní vstup; zadaný prodejce není v seznamu                 | ![Prodejci](/stuff/_screens/Prodejci.png)           | Ano                 |
+| 06              | Běžný stav; výběr požadavků v hlavním menu                      | ![Main normal](/stuff/_screens/Main_norm.png)       | Ano                 |
+| 07              | Běžný stav; výběr požadavků v podmenu "Prodej"                  | ![Prodej normal](/stuff/_screens/Prodej_norm.png)   | Ano                 |
+| 08              | Běžný stav; výběr pro cestu k souboru                           | ![PDF window](/stuff/_screens/Pdf_window.png)       | Ano                 |
+| 09              | Běžný stav; .pdf soubor                                         | ![PDF results](/stuff/_screens/Pdf_res.png)         | Ano                 |
+| 10              | Běžný stav; print binárního souboru do konzole                  | ![Binary results](/stuff/_screens/Binary_res.png)   | Ano                 |
 
 ## Popis fungování externí knihovny
 
