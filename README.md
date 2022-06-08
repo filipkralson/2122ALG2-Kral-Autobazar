@@ -54,7 +54,7 @@ Návrh menu s metodami
 
 ### Popis struktury vstupních a výstupních souborů
 
-Vstupní soubory jsou typu .csv a jednotlivé údaje o autech a prodejcích jsou odděleny středníkem (;). U objektů File s cestou k souborům je jasně dán název souborů a to carsUSA.csv a sellers.csv. Soubory musí být uloženy v **src** složce projektu.
+Vstupní soubory jsou typu .csv a jednotlivé údaje o autech a prodejcích jsou odděleny středníkem (;). U objektů File s cestou k souborům je jasně dán název souborů a to carsUSA.csv a sellers.csv. Soubory musí být uložena ve složce ./Autobazar/src/srcData/.
 
 Výstupní soubory budou 2. Jeden soubor bude ve formátu .pdf s volitelnou ukládací cestou. Budou v něm následující data v tomto pořadí:
 
