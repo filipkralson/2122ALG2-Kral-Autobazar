@@ -63,8 +63,8 @@ public class Autobazar implements AutobazarInterface {
     };
 
     private static final File fileSellers = new File(
-            "./Autobazar/src/main/java/com/filipkral/autobazar/sellers.csv");
-    private static final File fileCarsUSA = new File("./Autobazar/src/main/java/com/filipkral/autobazar/carsUSA.csv");
+            "./Autobazar/src/main/java/com/filipkral/autobazar/srcData/sellers.csv");
+    private static final File fileCarsUSA = new File("./Autobazar/src/main/java/com/filipkral/autobazar/srcData/carsUSA.csv");
     private static final File fileResultsBinary = new File(
             "./Autobazar/src/main/java/com/filipkral/autobazar/data/results.dat");
     private static final Locale loc = new Locale("CS", "cz");
@@ -177,7 +177,7 @@ public class Autobazar implements AutobazarInterface {
     /**
      * Method for saving money
      * 
-     * @param value
+     * @param moneyToAdd
      * @return double
      */
     public double bankAccount(double moneyToAdd) {
@@ -389,16 +389,17 @@ public class Autobazar implements AutobazarInterface {
     @Override
     public void saveToBinary() throws FileNotFoundException, IOException {
         try (DataOutputStream out = new DataOutputStream(new FileOutputStream(fileResultsBinary))) {
-            out.writeUTF(printSellersSorted());
-            out.writeUTF("Bylo prodáno: ");
+            out.writeInt(sellers.size());
+            for (Prodejci seller : getSellersSortedByExp()) {
+                out.writeUTF(seller.getName());
+                out.writeUTF(seller.getSurname());
+                out.writeInt(seller.getAge());
+                out.writeInt(seller.getExp());
+                out.writeDouble(seller.getMoney());
+            }
             out.writeInt(getSoldCars());
-            out.writeUTF(" ks");
-            out.writeUTF("za: ");
             out.writeDouble(getMoney());
-            out.writeUTF("Celkový výnos je: ");
-            out.writeDouble(getMoney() - sellersMoney());
-        } catch (EOFException e) {
-            throw new EOFException("Chyba při zápisu!");
+            out.writeDouble(sellersMoney());
         }
     }
 
@@ -413,15 +414,37 @@ public class Autobazar implements AutobazarInterface {
     public String readBinaryResults() throws FileNotFoundException, IOException {
         StringBuilder sb = new StringBuilder();
         try (DataInputStream in = new DataInputStream(new FileInputStream(fileResultsBinary))) {
-            sb.append("\n");
-            sb.append(in.readUTF());
-            sb.append("\n");
+            Boolean end = false;
+            int nSellers = 0;
+            String name, surname = "";
+            int age, exp, soldCars = 0;
+            double money, bazaarMoney, allSellersMoney = 0;
+            sb.append(String.format("\n%-10s %-10s %-5s %-10s %-15s\n", "Jméno", "Příjmení", "Věk", "Zkušenosti",
+                    "Peníze"));
+            sb.append("------------------------------------------------\n");
 
-            sb.append(in.readUTF()).append(in.readInt()).append(in.readUTF()).append("\n").append(in.readUTF())
-                    .append(String.format(loc, "%.2f", in.readDouble())).append("\n")
-                    .append(in.readUTF()).append(String.format(loc, "%.2f", in.readDouble())).append("\n");
-        } catch (EOFException e) {
-            throw new EOFException("Chyba při čtení!");
+            while (!end) {
+                try {
+                    nSellers = in.readInt();
+                    for (int i = 0; i < nSellers; i++) {
+                        name = in.readUTF();
+                        surname = in.readUTF();
+                        age = in.readInt();
+                        exp = in.readInt();
+                        money = in.readDouble();
+                        sb.append(String.format("%-10s %-10s %-5d %-10d %-10.2f\n", name, surname, age, exp, money));
+                    }
+                    sb.append("\n");
+                    soldCars = in.readInt();
+                    sb.append(String.format("Bylo prodáno %d ks\n", soldCars));
+                    bazaarMoney = in.readDouble();
+                    sb.append(String.format("za %.2f\n", bazaarMoney));
+                    allSellersMoney = in.readDouble();
+                    sb.append(String.format("Celkový výnos je: %.2f\n\n", (bazaarMoney - allSellersMoney)));
+                } catch (EOFException e) {
+                    end = true;
+                }
+            }
         }
         return sb.toString();
     }
@@ -466,7 +489,7 @@ public class Autobazar implements AutobazarInterface {
             } else {
                 sb.append(count += 1).append(". ").append(String.format(loc, "%s", car));
             }
-            
+
         }
 
         return sb.toString();
@@ -585,13 +608,13 @@ public class Autobazar implements AutobazarInterface {
 
     }
 
-    @Override
     /**
      * Method for printing time of sale
      * 
      * @return String timeFormated
      * 
      */
+    @Override
     public String saleTime() {
         LocalDateTime time = LocalDateTime.now();
         DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -609,6 +632,13 @@ public class Autobazar implements AutobazarInterface {
         return money * 23;
     }
 
+    /**
+     * Method for setting commission to sellers
+     * 
+     * @param seller
+     * @param money
+     * @return double
+     */
     public double commission(Prodejci seller, double money) {
         return seller.commission(money);
     }
@@ -659,20 +689,16 @@ public class Autobazar implements AutobazarInterface {
         return String.format("Autobazar %s má %d aut a %d prodejců.\n", getName(), getCarsCount(), getSellersCount());
     }
 
-   /* 
-   public static void main(String[] args) throws ExceptionInputOutput,
+    public static void main(String[] args) throws ExceptionInputOutput,
             IOException {
         Autobazar abc = new Autobazar("ABC");
         abc.loadCars();
         abc.loadSellsers();
-        System.out.println(abc.printSellersSorted());
-        System.out.println(abc.printCarsSorted());
         abc.sellTime(abc.getSpecificSeller(1), abc.getRandomCar());
-        System.out.println(abc.getSpecificSeller(1).getMoney());
         abc.saveToBinary();
         System.out.println(abc.readBinaryResults());
         System.out.println("Hi");
         System.out.println(abc);
     }
-    */ 
+
 }
